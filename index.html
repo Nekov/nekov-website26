@@ -256,6 +256,7 @@
       </div>
 
       <div class="talks-with-photo">
+        <div class="talks-left">
         <div class="talks-list">
 
           <div class="talk-card fade-in fade-delay-1">
@@ -300,42 +301,42 @@
             </div>
           </div>
 
-          <div class="talk-card fade-in fade-delay-3">
+          <div class="talk-card hidden fade-in fade-delay-3">
             <div class="talk-info">
               <div class="talk-title">Marketing Station: „Симбиозата между бизнес растеж и положителна промяна"</div>
               <div class="talk-meta"><span>15 Декември 2021</span></div>
             </div>
           </div>
 
-          <div class="talk-card fade-in fade-delay-4">
+          <div class="talk-card hidden fade-in fade-delay-4">
             <div class="talk-info">
               <div class="talk-title">Gamification Workshop: „Как да ангажираме устойчиво клиентите си чрез Геймификация"</div>
               <div class="talk-meta"><span>5 Октомври 2021</span><span>INTERPRED WTC Sofia</span></div>
             </div>
           </div>
 
-          <div class="talk-card fade-in fade-delay-1">
+          <div class="talk-card hidden fade-in fade-delay-1">
             <div class="talk-info">
               <div class="talk-title">eComm Talk #3: Инструменти за оптимизация на онлайн магазини</div>
               <div class="talk-meta"><span>11 Март 2021</span><span>Online</span></div>
             </div>
           </div>
 
-          <div class="talk-card fade-in fade-delay-2">
+          <div class="talk-card hidden fade-in fade-delay-2">
             <div class="talk-info">
               <div class="talk-title">eComm Talk #2: How to Develop a Winning CRO Strategy</div>
               <div class="talk-meta"><span>11 Декември 2020</span><span>Online</span></div>
             </div>
           </div>
 
-          <div class="talk-card fade-in fade-delay-3">
+          <div class="talk-card hidden fade-in fade-delay-3">
             <div class="talk-info">
               <div class="talk-title">eComm Talk: Стратегия за Черен петък 2020</div>
               <div class="talk-meta"><span>30 Октомври 2020</span><span>Online</span></div>
             </div>
           </div>
 
-          <div class="talk-card fade-in fade-delay-4">
+          <div class="talk-card hidden fade-in fade-delay-4">
             <div class="talk-info">
               <div class="talk-title">NekovTalkLive #2: „Умението да успяваме отвсякъде"</div>
               <div class="talk-meta"><span>26 Февруари 2020</span><span>Зона 21, София</span></div>
@@ -343,6 +344,11 @@
           </div>
 
         </div><!-- /.talks-list -->
+        <button class="talks-show-more" id="talksShowMore" onclick="
+          document.querySelectorAll('.talk-card.hidden').forEach(c => c.style.display = 'block');
+          this.style.display = 'none';
+        ">Виж всички →</button>
+        </div><!-- /.talks-left -->
 
         <div class="talks-photo fade-in">
           <img src="images/nekov-speaking-4.jpeg" alt="Николай Неков на сцена">

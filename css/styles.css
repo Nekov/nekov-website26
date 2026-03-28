@@ -1835,6 +1835,12 @@ footer {
   align-items: start;
 }
 
+.talks-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .talks-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -1862,9 +1868,30 @@ footer {
 
 .talk-card {
   background: var(--bg-card);
-  padding: 20px 24px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--border);
   transition: background 0.2s;
+}
+
+.talk-card.hidden {
+  display: none;
+}
+
+.talks-show-more {
+  margin-top: 12px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 8px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.talks-show-more:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
 }
 
 .talk-card:hover {
