@@ -1386,8 +1386,8 @@ footer {
 
 .speaking-strip {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  height: 360px;
+  grid-template-columns: repeat(2, 1fr);
+  height: 460px;
   overflow: hidden;
 }
 .speaking-strip img {
