@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /thankyou/
+Disallow: /workshop/thankyou/
+
+Sitemap: https://www.nekov.com/sitemap.xml
