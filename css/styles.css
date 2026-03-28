@@ -1373,6 +1373,19 @@ footer {
    WORKSHOP — CREDIBILITY PHOTO
    ============================================================ */
 
+.w-credibility-top {
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+.w-credibility-top img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
 .w-credibility-photo {
   display: grid;
   grid-template-columns: 1fr 1fr;
