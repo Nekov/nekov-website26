@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nikolay Nekov — Entrepreneur, Consultant, Mentor</title>
+  <meta name="description" content="I help businesses grow from idea to scale. Consulting, training &amp; workshops.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nikolay Nekov — Entrepreneur, Consultant, Mentor">
+  <meta property="og:description" content="I help businesses grow from idea to scale. Consulting, training &amp; workshops.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nekov.com/en/">
+  <!-- og:image — add OG image path here -->
+  <!-- <meta property="og:image" content="https://nekov.com/images/og-main.jpg"> -->
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- ── Facebook Pixel ────────────────────────────────────────
+       Replace YOUR_PIXEL_ID with your actual Pixel ID
+  ─────────────────────────────────────────────────────────── -->
+  <!--
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+  -->
+
+  <!-- ── Google Analytics 4 ───────────────────────────────────
+       Replace G-XXXXXXXXXX with your Measurement ID
+  ─────────────────────────────────────────────────────────── -->
+  <!--
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════ -->
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/en/" class="nav-logo">Nikolay Nekov</a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="#trainings">Training</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/en/workshop/">Workshop</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-right">
+          <div class="nav-lang">
+            <a href="/">БГ</a>
+            <span>|</span>
+            <a href="/en/" class="active">EN</a>
+          </div>
+          <a href="/en/workshop/" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
+            Workshop →
+          </a>
+        </div>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <div class="nav-mobile" id="navMobile" role="menu">
+      <a href="#trainings" role="menuitem">Training</a>
+      <a href="/services/" role="menuitem">Services</a>
+      <a href="/en/workshop/" role="menuitem">Workshop</a>
+      <a href="#about" role="menuitem">About</a>
+      <a href="#contact" role="menuitem">Contact</a>
+      <div class="nav-lang">
+        <a href="/">БГ</a>
+        <span>|</span>
+        <a href="/en/" class="active">EN</a>
+      </div>
+      <a href="/en/workshop/" class="btn btn-primary">Workshop →</a>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       1. HERO
+  ══════════════════════════════════════════ -->
+  <section class="hero" id="hero" aria-labelledby="hero-headline">
+    <div class="container">
+      <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-line"></div>
+        <div class="section-label fade-in">Entrepreneur · Consultant · Mentor</div>
+
+        <h1 id="hero-headline" class="fade-in fade-delay-1">Nikolay Nekov</h1>
+
+        <p class="hero-sub fade-in fade-delay-2">
+          Entrepreneur. Consultant. Mentor.<br>
+          I help businesses grow from idea to scale.
+        </p>
+
+        <div class="hero-ctas fade-in fade-delay-2">
+          <a href="/en/workshop/" class="btn btn-primary btn-lg">Upcoming Workshop →</a>
+          <a href="#contact" class="btn btn-outline btn-lg">Book a Consultation →</a>
+        </div>
+
+        <div class="hero-social fade-in fade-delay-3">
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/nekov/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </a>
+
+          <!-- YouTube -->
+          <a href="https://youtube.com/@NekovTalks" target="_blank" rel="noopener noreferrer" aria-label="YouTube channel NekovTalks">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            YouTube
+          </a>
+
+          <!-- Spotify -->
+          <a href="https://open.spotify.com/show/0Z8nmqnYq5uEvV0f5uHyLe" target="_blank" rel="noopener noreferrer" aria-label="Spotify podcast">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+            Spotify
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-photo fade-in">
+        <img src="../images/nikolay-hero.jpeg" alt="Nikolay Nekov">
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       2. MEDIA BAR — authority signal
+  ══════════════════════════════════════════ -->
+  <section class="media-bar" aria-label="Media features">
+    <div class="container">
+      <p class="media-bar-label">Featured in:</p>
+      <div class="media-logos" role="list" aria-label="Media">
+        <span class="media-logo" role="listitem">Capital</span>
+        <span class="media-logo" role="listitem">Bloomberg BG</span>
+        <span class="media-logo" role="listitem">bTV</span>
+        <span class="media-logo" role="listitem">Manager</span>
+        <span class="media-logo" role="listitem">Forbes</span>
+        <span class="media-logo" role="listitem">Investor</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       3. SERVICES — 3 service cards
+  ══════════════════════════════════════════ -->
+  <section class="section" id="services" aria-labelledby="services-headline">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">What I Build With Companies</div>
+        <h2 id="services-headline">How I Can Help</h2>
+        <p style="max-width:640px; margin-top:16px;">I work at the intersection of product, growth, and behavioral design — building businesses that scale, not just launch.</p>
+      </div>
+
+      <div class="cards-grid cards-grid--2col">
+        <div class="card fade-in fade-delay-1">
+          <div class="card-icon" aria-hidden="true">🧠</div>
+          <h3>Product, Growth &amp; Retention Systems</h3>
+          <div class="card-tagline">Build products people actually stick to</div>
+          <p>I design product and growth systems that drive retention, engagement, and monetization — combining product strategy, behavioral design, and scalable growth.</p>
+        </div>
+
+        <div class="card fade-in fade-delay-2">
+          <div class="card-icon" aria-hidden="true">🚀</div>
+          <h3>Venture Building</h3>
+          <div class="card-tagline">Turn ideas into real businesses</div>
+          <p>From concept to traction — I help founders and teams validate ideas, build MVPs, and launch scalable business models fast.</p>
+        </div>
+
+        <div class="card fade-in fade-delay-3">
+          <div class="card-icon" aria-hidden="true">🔁</div>
+          <h3>Gamification, Loyalty &amp; Community</h3>
+          <div class="card-tagline">Build ecosystems, not just features</div>
+          <p>I design loyalty programs, gamified experiences, and community-driven systems that increase engagement, retention, and long-term value.</p>
+        </div>
+
+        <div class="card fade-in fade-delay-4">
+          <div class="card-icon" aria-hidden="true">🤝</div>
+          <h3>Strategic Partnerships, Talks &amp; Workshops</h3>
+          <div class="card-tagline">Co-build and share what works</div>
+          <p>I partner with selected companies to build high-impact ventures, and share proven systems through keynotes, workshops, and internal team sessions.</p>
+        </div>
+      </div>
+
+      <div class="fade-in" style="margin-top:48px; text-align:center;">
+        <p style="color:var(--text-sec); margin-bottom:20px;">Ready to work together?</p>
+        <a href="#contact" class="btn btn-primary btn-lg">Apply for a Session →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       4. UPCOMING EVENT — teaser
+  ══════════════════════════════════════════ -->
+  <section class="section-sm" id="event">
+    <div class="container">
+      <div class="event-teaser fade-in">
+        <div class="event-teaser-text">
+          <div class="section-label">Upcoming Event</div>
+          <h2>Workshop: From Idea to First Clients</h2>
+          <p class="event-date">April 22 · 18:30 · Sofia</p>
+        </div>
+        <div class="event-teaser-cta">
+          <a href="/en/workshop/" class="btn btn-primary btn-lg">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       5. TRAINING & CONSULTING
+  ══════════════════════════════════════════ -->
+  <section class="section section-alt" id="trainings" aria-labelledby="trainings-headline">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Training &amp; Consulting</div>
+        <h2 id="trainings-headline">Training &amp; Consulting</h2>
+        <p>Buy a recording of a past training or book an online business consultation.</p>
+      </div>
+
+      <!-- A. Recordings -->
+      <p class="trainings-sub-label">Past Training Recordings</p>
+      <div class="trainings-grid" style="margin-bottom: 44px;">
+
+        <div class="training-card fade-in fade-delay-1">
+          <div class="section-label">Workshop · Recording</div>
+          <h3>From Idea to Business in 6 Steps</h3>
+          <p>
+            Full-day training: idea selection, validation, team, business plan, and marketing strategy.
+            Includes full video recording and all materials.
+          </p>
+          <div class="training-card-footer">
+            <div>
+              <div class="price">49 €</div>
+              <div class="price-sub">Video recording + materials</div>
+            </div>
+            <!-- ── Replace YOUR_STRIPE_LINK_RECORDING_1 ── -->
+            <a href="https://buy.stripe.com/YOUR_STRIPE_LINK_RECORDING_1"
+               class="btn btn-primary"
+               target="_blank" rel="noopener">
+              Buy Recording →
+            </a>
+          </div>
+        </div>
+
+        <!-- Add more recording cards here as new workshops are held -->
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       5b. PAST EVENTS & TALKS
+  ══════════════════════════════════════════ -->
+  <section class="section" id="past-events" aria-labelledby="past-events-headline">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">History</div>
+        <h2 id="past-events-headline">Past Trainings &amp; Talks</h2>
+      </div>
+
+      <div class="talks-grid">
+
+        <div class="talk-card fade-in fade-delay-1">
+          <div class="talk-info">
+            <div class="talk-title">Starting a Business – Opportunities and Challenges</div>
+            <div class="talk-meta"><span>Dec 22, 2024</span><span>Silistra</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-2">
+          <div class="talk-info">
+            <div class="talk-title">Full-day Workshop: From Idea to Business in 6 Steps</div>
+            <div class="talk-meta"><span>Mar 1, 2024</span><span>Barter Community Hub, Sofia</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-3">
+          <div class="talk-info">
+            <div class="talk-title">Gamification: How Game Models Help Business</div>
+            <div class="talk-meta"><span>Oct 18, 2023</span><span>Barter Community Hub, Sofia</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-4">
+          <div class="talk-info">
+            <div class="talk-title">Gamification Workshop: „How to Increase Customer Engagement &amp; Loyalty"</div>
+            <div class="talk-meta"><span>Mar 15, 2022</span><span>Inter Expo Center, Sofia</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-1">
+          <div class="talk-info">
+            <div class="talk-title">Socially Responsible Campaigns &amp; Sustainable Influencer Partnerships</div>
+            <div class="talk-meta"><span>Feb 22, 2022</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-2">
+          <div class="talk-info">
+            <div class="talk-title">Strategies in Branding &amp; Product Design with Mark Ralev</div>
+            <div class="talk-meta"><span>Jan 5, 2022</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-3">
+          <div class="talk-info">
+            <div class="talk-title">Marketing Station: „The Symbiosis Between Business Growth and Positive Change"</div>
+            <div class="talk-meta"><span>Dec 15, 2021</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-4">
+          <div class="talk-info">
+            <div class="talk-title">Gamification Workshop: „How to Engage Customers Sustainably through Gamification"</div>
+            <div class="talk-meta"><span>Oct 5, 2021</span><span>INTERPRED WTC Sofia</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-1">
+          <div class="talk-info">
+            <div class="talk-title">eComm Talk #3: Tools for Optimizing Online Stores</div>
+            <div class="talk-meta"><span>Mar 11, 2021</span><span>Online</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-2">
+          <div class="talk-info">
+            <div class="talk-title">eComm Talk #2: How to Develop a Winning CRO Strategy</div>
+            <div class="talk-meta"><span>Dec 11, 2020</span><span>Online</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-3">
+          <div class="talk-info">
+            <div class="talk-title">eComm Talk: Black Friday 2020 Strategy</div>
+            <div class="talk-meta"><span>Oct 30, 2020</span><span>Online</span></div>
+          </div>
+        </div>
+
+        <div class="talk-card fade-in fade-delay-4">
+          <div class="talk-info">
+            <div class="talk-title">NekovTalkLive #2: „The Skill of Succeeding from Anywhere"</div>
+            <div class="talk-meta"><span>Feb 26, 2020</span><span>Zona 21, Sofia</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       6. PROJECTS — 4 project cards
+  ══════════════════════════════════════════ -->
+  <section class="section" id="projects" aria-labelledby="projects-headline">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Projects</div>
+        <h2 id="projects-headline">My Projects</h2>
+      </div>
+
+      <div class="projects-grid">
+        <a href="https://thinkfirst.bg" target="_blank" rel="noopener noreferrer"
+           class="project-card fade-in fade-delay-1">
+          <div class="project-logo project-logo-img" aria-hidden="true">
+            <img src="../images/thinkfirst-logo.png" alt="ThinkFirst">
+          </div>
+          <h3>ThinkFirst</h3>
+          <p>Digital marketing agency, having worked with some of the largest brands in the country.</p>
+        </a>
+
+        <a href="https://karavani.bg" target="_blank" rel="noopener noreferrer"
+           class="project-card fade-in fade-delay-2">
+          <div class="project-logo project-logo-img" aria-hidden="true">
+            <img src="../images/karavani-logo.png" alt="Karavani.bg">
+          </div>
+          <h3>Karavani.bg</h3>
+          <p>Caravan rental marketplace and additional services — leader in its category.</p>
+        </a>
+
+        <a href="https://silistra2030.com" target="_blank" rel="noopener noreferrer"
+           class="project-card fade-in fade-delay-3">
+          <div class="project-logo project-logo-img" aria-hidden="true">
+            <img src="../images/nextribe-logo.svg" alt="Nextribe">
+          </div>
+          <h3>Nextribe</h3>
+          <p>A community building a new generation of leaders in Silistra.</p>
+        </a>
+
+        <a href="https://youtube.com/@NekovTalks" target="_blank" rel="noopener noreferrer"
+           class="project-card fade-in fade-delay-4">
+          <div class="project-logo" aria-hidden="true">NT</div>
+          <h3>NekovTalks</h3>
+          <p>YouTube channel on entrepreneurship, leadership, and personal development.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CASE STUDY — JAYA Tribe
+  ══════════════════════════════════════════ -->
+  <section class="section section-alt" id="case-study">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Case Study</div>
+        <h2>From Idea to a Community of 650+ Members</h2>
+      </div>
+
+      <div class="case-study-grid fade-in">
+        <div class="case-study-content">
+          <div class="case-study-client">
+            <img src="../images/jaya-logo.png" alt="JAYA Tribe" style="height:56px; width:auto;">
+          </div>
+          <p class="case-study-challenge"><strong>Challenge:</strong> Launching and validating a community platform with minimal paid traffic.</p>
+          <p>We built a content-driven growth system — focused on community engagement, organic distribution and outcome tracking.</p>
+
+          <div class="case-study-services">
+            <div class="section-label" style="margin-bottom:12px;">Services</div>
+            <ul class="case-services-list">
+              <li>Research &amp; audience analysis</li>
+              <li>Product, brand &amp; community structure</li>
+              <li>Business model &amp; growth plan</li>
+              <li>Partner &amp; contractor coordination</li>
+              <li>Content &amp; distribution strategy</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="case-study-results">
+          <div class="case-thumb" style="margin-bottom:24px; border-radius:8px; overflow:hidden; border:1px solid var(--border);">
+            <img src="../images/jaya-website.png" alt="JAYA Tribe website" style="width:100%; display:block;">
+          </div>
+          <div class="case-metrics">
+            <div class="case-metric">
+              <div class="case-metric-number">650+</div>
+              <div class="case-metric-label">subscribers</div>
+            </div>
+            <div class="case-metric">
+              <div class="case-metric-number">6,980</div>
+              <div class="case-metric-label">hours of content watched</div>
+            </div>
+          </div>
+
+          <div class="case-testimonial">
+            <p class="case-quote">Working with Niki is a genuine pleasure. He helped me — and continues to help me — think at scale and move the project forward when things get tough. Within just a few months we built a successful and meaningful business that keeps growing every day.</p>
+            <div class="case-author">
+              <strong>Alexandra Algafari</strong>
+              <span>Founder, JAYA Tribe</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       7. TESTIMONIALS
+  ══════════════════════════════════════════ -->
+  <section class="section section-alt" id="testimonials" aria-labelledby="testimonials-headline">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-label">Testimonials</div>
+        <h2 id="testimonials-headline">What Clients Say</h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-open fade-in fade-delay-1">
+          <p class="testimonial-quote">
+            His ideas significantly improved the competitiveness of our product.
+            I recommend him for any organization looking for a high level of professionalism.
+          </p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">LB</div>
+            <div>
+              <div class="testimonial-name">Lloyd Butler</div>
+              <div class="testimonial-role">Senior Manager, PayPal Australia</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-open fade-in fade-delay-2">
+          <p class="testimonial-quote">
+            I strongly recommend Niki and his team. He doesn't just help with marketing
+            strategies — Niki is like a business partner. His opinion and advice have always
+            been invaluable in building and growing my business.
+          </p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">AS</div>
+            <div>
+              <div class="testimonial-name">Alexandra Stoyanova</div>
+              <div class="testimonial-role">Founder, Sunny Rooms</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Client logos -->
+      <div class="fade-in">
+        <p class="client-logos-label">Trusted by</p>
+        <div class="client-logos" role="list" aria-label="Clients">
+          <span class="client-logo" role="listitem">DevriX</span>
+          <span class="client-logo" role="listitem">Burgas Municipality</span>
+          <span class="client-logo" role="listitem">Utopia Forest</span>
+          <span class="client-logo" role="listitem">Fixed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       8. ABOUT
+  ══════════════════════════════════════════ -->
+  <section class="section" id="about" aria-labelledby="about-headline">
+    <div class="container">
+      <div class="about-grid">
+        <!-- Photo — replace placeholder with: <img src="../images/nikolay.jpg" alt="Nikolay Nekov"> -->
+        <div class="about-photo fade-in">
+          <img src="../images/nikolay-about.jpeg" alt="Nikolay Nekov">
+        </div>
+
+        <div class="about-content fade-in fade-delay-1">
+          <div class="section-label">About</div>
+          <h2 id="about-headline">About Nikolay</h2>
+
+          <p>
+            Entrepreneur with 8+ years of experience starting and scaling businesses.
+            Founder of ThinkFirst — a digital agency that has worked with some of the largest
+            brands in Bulgaria — and karavani.bg, the market leader in its category.
+          </p>
+          <p>
+            I've worked with 30+ companies on product strategy, go-to-market, and growth.
+            I have extensive experience in fundraising.
+          </p>
+          <p>
+            Creator of successful educational programs in the entrepreneurial ecosystem,
+            mentor at Mentor the Young and Teenovator, and speaker at 20+ training sessions
+            and seminars.
+          </p>
+          <p>
+            I believe every organization needs a clear vision of how to create positive,
+            long-term change. And I'm ready to work with people who want exactly that.
+          </p>
+
+          <div class="stats-row">
+            <div class="stat">
+              <div class="stat-number">8+</div>
+              <div class="stat-label">years of experience</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">30+</div>
+              <div class="stat-label">companies</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">20+</div>
+              <div class="stat-label">trainings</div>
+            </div>
+          </div>
+
+          <!-- ── Replace YOUR_STRIPE_LINK_CONSULTATION ── -->
+          <a href="https://buy.stripe.com/YOUR_STRIPE_LINK_CONSULTATION"
+             class="btn btn-primary"
+             target="_blank" rel="noopener">
+            Book a Consultation →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       9. CONSULTATION — contact form
+  ══════════════════════════════════════════ -->
+  <section class="section section-alt" id="contact" aria-labelledby="consult-headline">
+    <div class="container">
+      <div class="consult-grid">
+        <div class="consult-info fade-in">
+          <div class="section-label">Consultation</div>
+          <h2 id="consult-headline">Got a Challenge?<br>Let's Work on It.</h2>
+          <p>Tell me what you're working on — I'll review your situation and suggest the best way I can help.</p>
+          <div class="consult-perks">
+            <div class="perk"><span class="perk-check">✓</span> I'll respond within 48 hours</div>
+            <div class="perk"><span class="perk-check">✓</span> No commitment required</div>
+            <div class="perk"><span class="perk-check">✓</span> Adapted to your specific situation</div>
+          </div>
+        </div>
+        <form class="contact-form fade-in fade-delay-1" action="https://formsubmit.co/n.nekov@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New request from nekov.com">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://nekov.com/en/thankyou/">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cf-name">Name</label>
+              <input type="text" id="cf-name" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="cf-email">Email</label>
+              <input type="email" id="cf-email" name="email" placeholder="email@example.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cf-topic">Topic</label>
+            <input type="text" id="cf-topic" name="topic" placeholder="What are you working on? (e.g. idea validation, go-to-market, growth strategy)">
+          </div>
+          <div class="form-group">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="4" placeholder="Tell me more about your situation — what's the challenge, where are you stuck?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">Submit Your Challenge →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       10. FOOTER
+  ══════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">Nikolay Nekov</div>
+          <div class="footer-copy">© 2026 Nikolay Nekov | SkillGround Ltd.</div>
+        </div>
+
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/in/nekov/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://youtube.com/@NekovTalks" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://open.spotify.com/show/0Z8nmqnYq5uEvV0f5uHyLe" target="_blank" rel="noopener">Spotify</a>
+        </div>
+
+        <div class="footer-contact">
+          <a href="mailto:hello@nekov.com">hello@nekov.com</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
