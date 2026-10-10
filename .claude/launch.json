@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "nekov-site",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "3456"],
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "node scripts/build.mjs && python3 -m http.server 3456 -d dist"],
       "port": 3456
     }
   ]
