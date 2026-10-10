@@ -2,6 +2,17 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 
 export const CALENDLY = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/nekov/nekov-s-week';
 
+/** Escape text and wrap every [bracketed] placeholder (nesting allowed) in a visible .ph span. */
+export function t(str) {
+  let out = '', depth = 0;
+  for (const ch of String(str)) {
+    if (ch === '[') { if (depth++ === 0) out += '<span class="ph">'; out += '['; }
+    else if (ch === ']' && depth > 0) { out += ']'; if (--depth === 0) out += '</span>'; }
+    else out += esc(ch);
+  }
+  return out + '</span>'.repeat(depth);
+}
+
 /** Render [placeholder] text visibly. */
 export const ph = (s) => `<span class="ph">${esc(s)}</span>`;
 

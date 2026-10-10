@@ -7,6 +7,7 @@ import { isProduction } from '../lib/env.js';
 import { layout } from '../src/layout.mjs';
 import { bg } from '../src/content/bg.mjs';
 import { home } from '../src/pages/home.mjs';
+import { buildImages, pic } from './images.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const out = resolve(root, process.env.OUT_DIR || 'dist');
@@ -21,12 +22,14 @@ const write = (rel, data) => {
 };
 
 // ── New pages ────────────────────────────────────────────────────────
+const images = await buildImages(root, out);
+const img = (name, opts) => pic(images, name, opts);
 write('index.html', layout({
   c: bg,
   prod,
   site: SITE,
   page: { canonical: '/', alternates: [['bg', '/'], ['en', '/en/'], ['x-default', '/']] },
-  body: home(bg),
+  body: home(bg, img),
 }));
 cpSync(join(root, 'src/fonts'), join(out, 'fonts'), { recursive: true });
 mkdirSync(join(out, 'css'), { recursive: true });
