@@ -107,7 +107,7 @@ function cases(c, img) {
 </section>`;
 }
 
-function models(c) {
+export function models(c, withSession = true) {
   const m = c.models;
   return `<section class="band band--ivory" id="models" aria-labelledby="models-h">
   <div class="wrap">
@@ -128,10 +128,10 @@ function models(c) {
         <a class="btn btn--brass" href="#contact">${esc(m.partner.cta)}</a>
       </article>
     </div>
-    <div class="session">
+    ${withSession ? `<div class="session">
       <div><h3>${esc(m.session.name)}</h3><p>${esc(m.session.text)}</p></div>
       <p class="session__price">${esc(m.session.price)}</p>
-    </div>
+    </div>` : ''}
   </div>
 </section>`;
 }
@@ -229,7 +229,7 @@ ${c.faq.items.map(([q, a]) => `    <details><summary>${esc(q)}</summary><p>${t(a
   </div>
 </section>`;
 
-function contact(c) {
+export function contact(c, source = '/') {
   const k = c.contact, f = k.fields;
   return `<section class="band band--forest" id="contact" aria-labelledby="contact-h">
   <div class="wrap contact">
@@ -241,7 +241,7 @@ function contact(c) {
     </div>
     <form class="form" action="/api/contact" method="post">
       <input type="hidden" name="language" value="bg">
-      <input type="hidden" name="source" value="/">
+      <input type="hidden" name="source" value="${source}">
       <p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>
       <label for="cf-name">${esc(f.name)}</label>
       <input id="cf-name" name="name" type="text" autocomplete="name" required>

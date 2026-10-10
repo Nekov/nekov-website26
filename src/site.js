@@ -7,3 +7,6 @@ if (toggle && panel) {
     toggle.setAttribute('aria-expanded', String(open));
   });
 }
+
+// The old homepage #past-events list now lives on /trainings/.
+if (location.hash === '#past-events' && location.pathname === '/') location.replace('/trainings/#past-events');

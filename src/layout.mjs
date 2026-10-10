@@ -27,7 +27,7 @@ function head({ c, page, prod, site }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(m.title)}</title>
   <meta name="description" content="${esc(m.description)}">
-  ${prod ? '' : '<meta name="robots" content="noindex,nofollow">'}
+  ${prod && !page.noindex ? '' : '<meta name="robots" content="noindex,nofollow">'}
   ${canonical}
   ${alt}
   <link rel="preload" href="/fonts/source-serif-4-${c.lang === 'bg' ? 'cyrillic' : 'latin'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -64,6 +64,7 @@ function footer(c) {
       <a href="https://www.linkedin.com/in/nekov/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://youtube.com/@NekovTalks" target="_blank" rel="noopener">YouTube</a>
       <a href="https://open.spotify.com/show/0Z8nmqnYq5uEvV0f5uHyLe" target="_blank" rel="noopener">Spotify</a>
+      <a href="/privacy/">${esc(f.privacy)}</a>
       <a href="mailto:${f.email}">${f.email}</a>
     </p>
   </div>

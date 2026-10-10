@@ -7,6 +7,9 @@ import { isProduction } from '../lib/env.js';
 import { layout } from '../src/layout.mjs';
 import { bg } from '../src/content/bg.mjs';
 import { home } from '../src/pages/home.mjs';
+import { services } from '../src/pages/services.mjs';
+import { trainings } from '../src/pages/trainings.mjs';
+import { privacy, sent } from '../src/pages/simple.mjs';
 import { buildImages, pic } from './images.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -31,6 +34,15 @@ write('index.html', layout({
   page: { canonical: '/', alternates: [['bg', '/'], ['en', '/en/'], ['x-default', '/']] },
   body: home(bg, img),
 }));
+const page = (rel, { meta, canonical, switchTo, body, noindex }) => write(rel, layout({
+  c: bg, prod, site: SITE,
+  page: { meta, canonical, noindex, switch: { bg: canonical || '/', en: switchTo || '/en/' }, alternates: null },
+  body,
+}));
+page('services/index.html', { meta: bg.services.meta, canonical: '/services/', body: services(bg, { stripeConfigured: Boolean(process.env.STRIPE_SESSION_LINK) }) });
+page('trainings/index.html', { meta: bg.trainings.meta, canonical: '/trainings/', body: trainings(bg, img) });
+page('privacy/index.html', { meta: bg.privacy.meta, canonical: '/privacy/', body: privacy(bg) });
+page('sent/index.html', { meta: bg.sent.meta, canonical: '/sent/', noindex: true, body: sent(bg) });
 cpSync(join(root, 'src/fonts'), join(out, 'fonts'), { recursive: true });
 mkdirSync(join(out, 'css'), { recursive: true });
 mkdirSync(join(out, 'js'), { recursive: true });
@@ -43,7 +55,6 @@ for (const d of ['images', 'css/styles.css', 'js/main.js', 'workshop', 'thankyou
   cpSync(join(root, d), join(out, d), { recursive: true });
 }
 cpSync(join(root, 'legacy/en/index.html'), join(out, 'en/index.html'));
-cpSync(join(root, 'legacy/services'), join(out, 'services'), { recursive: true });
 
 // ── Non-production hardening ─────────────────────────────────────────
 // Loaders, or calls that would throw without the library. Guarded helpers (typeof fbq / typeof gtag)

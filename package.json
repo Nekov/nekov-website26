@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "verify": "node scripts/verify.mjs",
-    "dev": "node scripts/build.mjs && python3 -m http.server 3456 -d dist"
+    "dev": "node scripts/build.mjs && node scripts/dev.mjs 3456"
   },
   "devDependencies": {
     "sharp": "^0.35.5"

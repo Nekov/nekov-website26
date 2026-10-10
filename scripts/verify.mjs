@@ -28,7 +28,22 @@ const home = readFileSync('dist-verify-prod/index.html', 'utf8');
 check('production: robots.txt allows', /Allow:\s*\//.test(readFileSync('dist-verify-prod/robots.txt', 'utf8')));
 check('production: sitemap.xml present', existsSync('dist-verify-prod/sitemap.xml'));
 check('production: home has no noindex, has canonical + hreflang', !/noindex/.test(home) && /rel="canonical"/.test(home) && /hreflang="x-default"/.test(home));
+check('production: /sent/ stays noindex, /services/ is indexable', /noindex/.test(readFileSync('dist-verify-prod/sent/index.html', 'utf8')) && !/noindex/.test(readFileSync('dist-verify-prod/services/index.html', 'utf8')));
 check('production: /workshop byte-identical to source', execFileSync('diff', ['-r', 'workshop', 'dist-verify-prod/workshop']).length === 0);
+
+// ── Contact endpoint ──
+const { handleContact } = await import('../lib/contact.js');
+process.env.LEADS_DIR = 'dist-verify-leads';
+const post = (fields, headers = {}) => handleContact(new Request('https://x.test/api/contact', { method: 'POST', headers: { 'x-forwarded-for': String(Math.random()), ...headers }, body: new URLSearchParams(fields) }));
+const ok = { name: 'A', email: 'a@b.co', topic: 'Проект', consent: 'on' };
+check('contact: valid post stores and redirects to /sent/', (await post(ok)).headers.get('location') === '/sent/' && existsSync('dist-verify-leads/staging-leads.jsonl'));
+check('contact: missing consent is rejected', (await post({ ...ok, consent: '' })).status === 400);
+check('contact: honeypot redirects without storing', (await post({ ...ok, website: 'x', name: 'Bot' })).status === 303 && !readFileSync('dist-verify-leads/staging-leads.jsonl', 'utf8').includes('Bot'));
+check('contact: cross-origin post rejected', (await post(ok, { origin: 'https://evil.test' })).status === 403);
+const same = { 'x-forwarded-for': '9.9.9.9' };
+let last; for (let i = 0; i < 7; i++) last = await post(ok, same);
+check('contact: rate limit returns 429', last.status === 429);
+execFileSync('rm', ['-rf', 'dist-verify-leads']);
 
 // ── Middleware ──
 const { default: mw } = await import('../middleware.js');

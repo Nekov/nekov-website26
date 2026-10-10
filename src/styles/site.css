@@ -235,3 +235,28 @@ p{margin:0 0 1em}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .nav__brand{display:inline-flex;align-items:center;min-height:44px}
 .consent a{display:inline-flex;align-items:center;min-height:44px}
+
+/* ── Services, trainings, simple pages ─────────────────────────────── */
+.svc{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,5vw,72px)}
+.svc h2{margin-bottom:8px}
+.svc__facts{margin:0;display:grid;gap:24px}
+.svc__facts dt{font:600 13px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);margin-bottom:8px}
+.svc__facts dd{margin:0}
+.svc__facts .ticks{margin:0}
+@media (max-width:860px){.svc{grid-template-columns:1fr}}
+.session-block{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
+@media (max-width:860px){.session-block{grid-template-columns:1fr}}
+.session-block .session__price{display:block;font-size:inherit;margin-top:8px}
+.form--ivory label{color:var(--ink)}
+.form--ivory input[type=text],.form--ivory input[type=email],.form--ivory textarea{border-color:var(--border);background:var(--card);color:var(--ink)}
+.form--ivory .consent{color:var(--muted)}
+.form--ivory input:focus-visible,.form--ivory textarea:focus-visible{outline-color:var(--forest)}
+.events{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:clamp(32px,5vw,72px);align-items:start}
+@media (max-width:860px){.events{grid-template-columns:1fr}}
+.event-list{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:12px}
+.event-list .card{padding:20px 24px}
+.event__title{font:500 19px/1.3 var(--serif);color:var(--ink)!important;margin:0 0 4px}
+.event__meta{font-size:15px;margin:0}
+.cta{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+.cta h2{margin:0}
+.prose{max-width:760px}
