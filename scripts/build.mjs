@@ -70,6 +70,8 @@ export function stagingify(html) {
   // No pointers to production.
   html = html.replace(/<link\s+rel="(?:canonical|alternate)"[^>]*>\s*/gi, '');
   html = html.replace(/<meta\s+property="og:url"[^>]*>\s*/gi, '');
+  const base = process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : 'http://localhost:3456';
+  html = html.replace(/(name="_next"\s+value=")https?:\/\/(?:www\.)?nekov\.com\//gi, `$1${base}/`);
   if (!/name="robots"/i.test(html)) {
     html = html.replace(/<head>/i, '<head>\n  <meta name="robots" content="noindex,nofollow">');
   }
