@@ -239,7 +239,7 @@ export function contact(c, source = '/') {
       <p class="lead">${esc(k.text)}</p>
       <ul class="ticks">${k.ticks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
     </div>
-    <form class="form" action="/api/contact" method="post">
+    <form class="form" action="/api/contact/" method="post">
       <input type="hidden" name="language" value="bg">
       <input type="hidden" name="source" value="${source}">
       <p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>

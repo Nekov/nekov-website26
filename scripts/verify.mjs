@@ -41,7 +41,7 @@ check('contact: missing consent is rejected', (await post({ ...ok, consent: '' }
 check('contact: honeypot redirects without storing', (await post({ ...ok, website: 'x', name: 'Bot' })).status === 303 && !readFileSync('dist-verify-leads/staging-leads.jsonl', 'utf8').includes('Bot'));
 check('contact: cross-origin post rejected', (await post(ok, { origin: 'https://evil.test' })).status === 403);
 const sent = [];
-const fakeFetch = async (url, init) => { sent.push({ url, body: JSON.parse(init.body) }); return { ok: true }; };
+const fakeFetch = async (url, init) => { sent.push({ url, body: JSON.parse(init.body) }); return { ok: true, json: async () => ({ success: 'true' }) }; };
 const mock = (fields, env, f = fakeFetch) => handleContact(new Request('https://x.test/api/contact', { method: 'POST', headers: { 'x-forwarded-for': String(Math.random()) }, body: new URLSearchParams(fields) }), env, f);
 await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: 'dist-verify-leads' });
 check('contact: emails via FormSubmit alias, [STAGING] subject on staging', sent[0]?.url === 'https://formsubmit.co/ajax/abc123' && sent[0].body._subject.startsWith('[STAGING] ') && sent[0].body.email === 'a@b.co');
@@ -49,7 +49,8 @@ sent.length = 0;
 await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', SITE_ENV: 'production', VERCEL_ENV: 'production', LEADS_DIR: 'dist-verify-leads' });
 check('contact: no [STAGING] prefix in production', sent[0] && !sent[0].body._subject.startsWith('[STAGING]'));
 check('contact: email failure falls back to local copy', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: 'dist-verify-leads' }, async () => { throw new Error('down'); })).headers.get('location') === '/sent/');
-check('contact: error when both email and storage fail', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: '/dev/null/x' }, async () => ({ ok: false }))).status === 502);
+check('contact: error when both email and storage fail', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: '/dev/null/x' }, async () => ({ ok: false, json: async () => ({}) }))).status === 502);
+check('contact: HTTP 200 with success:"false" (not activated) is NOT treated as delivered', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: '/dev/null/x' }, async () => ({ ok: true, json: async () => ({ success: 'false' }) }))).status === 502);
 const same = { 'x-forwarded-for': '9.9.9.9' };
 let last; for (let i = 0; i < 7; i++) last = await post(ok, same);
 check('contact: rate limit returns 429', last.status === 429);

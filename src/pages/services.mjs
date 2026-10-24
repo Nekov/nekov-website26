@@ -32,7 +32,7 @@ function session(c, stripeConfigured) {
       <p class="lead muted">${esc(m.text)}</p>
       <p class="muted">${esc(s.intro)}</p>
     </div>
-    <form class="form form--ivory" action="/api/contact" method="post">
+    <form class="form form--ivory" action="/api/contact/" method="post">
       <input type="hidden" name="intent" value="session">
       <input type="hidden" name="topic" value="Стратегическа сесия">
       <input type="hidden" name="language" value="bg">
