@@ -3,5 +3,7 @@ Allow: /
 
 Disallow: /thankyou/
 Disallow: /workshop/thankyou/
+Disallow: /sent/
+Disallow: /en/sent/
 
 Sitemap: https://www.nekov.com/sitemap.xml

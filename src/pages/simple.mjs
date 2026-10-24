@@ -11,6 +11,6 @@ export const sent = (c) => `<section class="band band--ivory" aria-labelledby="s
   <div class="wrap prose">
     <h1 id="sent-h">${esc(c.sent.h1)}</h1>
     <p class="lead">${esc(c.sent.text)}</p>
-    <a class="btn btn--forest" href="/">${esc(c.sent.back)}</a>
+    <a class="btn btn--forest" href="${c.base || '/'}${c.base ? '/' : ''}">${esc(c.sent.back)}</a>
   </div>
 </section>`;

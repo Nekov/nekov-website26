@@ -26,7 +26,7 @@ function pillarBlock(s, p, n) {
 function session(c, stripeConfigured) {
   const s = c.services.session, m = c.models.session, q = s.q;
   // After the intake, FormSubmit sends the visitor on to the Stripe Payment Link (test-mode on staging).
-  const target = formTarget({ subject: 'Нова заявка за стратегическа сесия от nekov.com', nextUrl: process.env.STRIPE_SESSION_LINK || undefined });
+  const target = formTarget({ subject: c.lang === 'en' ? 'New strategy-session request from nekov.com' : 'Нова заявка за стратегическа сесия от nekov.com', nextPath: `${c.base}/sent/`, nextUrl: process.env.STRIPE_SESSION_LINK || undefined });
   return `<section class="band band--ivory" id="session" aria-labelledby="session-h">
   <div class="wrap session-block">
     <div>
@@ -37,9 +37,9 @@ function session(c, stripeConfigured) {
     </div>
     <form class="form form--ivory" action="${target.action}" method="post">
       <input type="hidden" name="intent" value="session">
-      <input type="hidden" name="topic" value="Стратегическа сесия">
-      <input type="hidden" name="language" value="bg">
-      <input type="hidden" name="source" value="/services/">
+      <input type="hidden" name="topic" value="${c.contact.topics[2]}">
+      <input type="hidden" name="language" value="${c.lang}">
+      <input type="hidden" name="source" value="${c.base}/services/">
       ${target.fields}
       <label for="ss-name">${esc(c.contact.fields.name)}</label>
       <input id="ss-name" name="name" type="text" autocomplete="name" required>
@@ -51,7 +51,7 @@ function session(c, stripeConfigured) {
       <textarea id="ss-goal" name="intake_goal" rows="2" required></textarea>
       <label for="ss-stage">${esc(q.stage)}</label>
       <input id="ss-stage" name="intake_stage" type="text" required>
-      <label class="consent"><input type="checkbox" name="consent" required> <span>${esc(c.contact.consentPre)}<a href="/privacy/">${esc(c.contact.consentLink)}</a></span></label>
+      <label class="consent"><input type="checkbox" name="consent" required> <span>${esc(c.contact.consentPre)}<a href="${c.base}/privacy/">${esc(c.contact.consentLink)}</a></span></label>
       <button class="btn btn--forest" type="submit">${esc(s.submit)}</button>
       ${stripeConfigured ? '' : `<p class="small">${t(s.noLink)}</p>`}
     </form>
@@ -79,5 +79,5 @@ ${session(c, stripeConfigured)}
     <p class="muted small">${t(s.team.confirm)}</p>
   </div>
 </section>
-${contact(c, '/services/')}`;
+${contact(c, `${c.base}/services/`)}`;
 }

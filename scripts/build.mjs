@@ -3,9 +3,11 @@
 import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isProduction } from '../lib/env.js';
+import sharp from 'sharp';
+import { isProduction, trackingEnabled } from '../lib/env.js';
 import { layout } from '../src/layout.mjs';
 import { bg } from '../src/content/bg.mjs';
+import { en } from '../src/content/en.mjs';
 import { home } from '../src/pages/home.mjs';
 import { services } from '../src/pages/services.mjs';
 import { trainings } from '../src/pages/trainings.mjs';
@@ -24,37 +26,56 @@ const write = (rel, data) => {
   writeFileSync(join(out, rel), data);
 };
 
-// ── New pages ────────────────────────────────────────────────────────
+// ── New pages, both languages from one set of page functions ─────────
 const images = await buildImages(root, out);
 const img = (name, opts) => pic(images, name, opts);
-write('index.html', layout({
-  c: bg,
-  prod,
-  site: SITE,
-  page: { canonical: '/', alternates: [['bg', '/'], ['en', '/en/'], ['x-default', '/']] },
-  body: home(bg, img),
-}));
-const page = (rel, { meta, canonical, switchTo, body, noindex }) => write(rel, layout({
-  c: bg, prod, site: SITE,
-  page: { meta, canonical, noindex, switch: { bg: canonical || '/', en: switchTo || '/en/' }, alternates: null },
-  body,
-}));
-page('services/index.html', { meta: bg.services.meta, canonical: '/services/', body: services(bg, { stripeConfigured: Boolean(process.env.STRIPE_SESSION_LINK) }) });
-page('trainings/index.html', { meta: bg.trainings.meta, canonical: '/trainings/', body: trainings(bg, img) });
-page('privacy/index.html', { meta: bg.privacy.meta, canonical: '/privacy/', body: privacy(bg) });
-page('sent/index.html', { meta: bg.sent.meta, canonical: '/sent/', noindex: true, body: sent(bg) });
+const stripeConfigured = Boolean(process.env.STRIPE_SESSION_LINK);
+const tracking = trackingEnabled();
+const sitemap = [];
+
+// bg path -> { build(c), meta(c), noindex }
+const PAGES = [
+  { path: '/', meta: (c) => c.meta, body: (c) => home(c, img), jsonld: true },
+  { path: '/services/', meta: (c) => c.services.meta, body: (c) => services(c, { stripeConfigured }) },
+  { path: '/trainings/', meta: (c) => c.trainings.meta, body: (c) => trainings(c, img) },
+  { path: '/privacy/', meta: (c) => c.privacy.meta, body: (c) => privacy(c) },
+  { path: '/sent/', meta: (c) => c.sent.meta, body: (c) => sent(c), noindex: true },
+];
+const enPath = (p) => (p === '/' ? '/en/' : `/en${p}`);
+
+for (const p of PAGES) {
+  const paths = { bg: p.path, en: enPath(p.path) };
+  for (const c of [bg, en]) {
+    const own = paths[c.lang];
+    write(join(own, 'index.html'), layout({
+      c, prod, site: SITE, tracking,
+      page: {
+        meta: p.meta(c), canonical: own, noindex: p.noindex, jsonld: p.jsonld,
+        switch: paths,
+        alternates: p.noindex ? null : [['bg', paths.bg], ['en', paths.en], ['x-default', paths.bg]],
+      },
+      body: p.body(c),
+    }));
+  }
+  if (!p.noindex && p.path !== '/privacy/') sitemap.push(paths);
+}
+
+// Open Graph image: a speaking photo at 1200x630.
+await sharp(join(root, 'images/nekov-speaking-1.jpg')).resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(join(out, 'img/og.jpg'));
+
 cpSync(join(root, 'src/fonts'), join(out, 'fonts'), { recursive: true });
 mkdirSync(join(out, 'css'), { recursive: true });
 mkdirSync(join(out, 'js'), { recursive: true });
 cpSync(join(root, 'src/styles/site.css'), join(out, 'css/site.css'));
 cpSync(join(root, 'src/site.js'), join(out, 'js/site.js'));
+cpSync(join(root, 'src/favicon.svg'), join(out, 'favicon.svg'));
+if (tracking) cpSync(join(root, 'src/consent.js'), join(out, 'js/consent.js'));
 
 // ── Pass-through: assets and routes not yet rebuilt ──────────────────
 // Legacy pages stay byte-identical in production. /workshop is never edited.
 for (const d of ['images', 'css/styles.css', 'js/main.js', 'workshop', 'thankyou', 'en/workshop']) {
   cpSync(join(root, d), join(out, d), { recursive: true });
 }
-cpSync(join(root, 'legacy/en/index.html'), join(out, 'en/index.html'));
 
 // ── Non-production hardening ─────────────────────────────────────────
 // Loaders, or calls that would throw without the library. Guarded helpers (typeof fbq / typeof gtag)
@@ -93,7 +114,11 @@ if (!prod) {
   writeFileSync(join(out, 'robots.txt'), 'User-agent: *\nDisallow: /\n');
 } else {
   cpSync(join(root, 'robots.txt'), join(out, 'robots.txt'));
-  cpSync(join(root, 'sitemap.xml'), join(out, 'sitemap.xml'));
+  const alt = (paths) => ['bg', 'en'].map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE}${paths[l]}"/>`).join('\n') + `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}${paths.bg}"/>`;
+  const urls = sitemap.flatMap((paths) => [paths.bg, paths.en].map((loc) => `  <url>\n    <loc>${SITE}${loc}</loc>\n${alt(paths)}\n  </url>`));
+  // /workshop is a separate landing page and keeps its own entries.
+  for (const [bgp, enp] of [['/workshop/', '/en/workshop/']]) urls.push(...[bgp, enp].map((loc) => `  <url>\n    <loc>${SITE}${loc}</loc>\n${alt({ bg: bgp, en: enp })}\n  </url>`));
+  write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join('\n')}\n</urlset>\n`);
 }
 
 console.log(`built ${prod ? 'PRODUCTION' : 'STAGING'} → ${out}`);

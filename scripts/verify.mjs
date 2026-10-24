@@ -83,5 +83,41 @@ check('middleware basic auth: 401 with wrong credentials', mw(req({ authorizatio
 check('middleware basic auth: passes with correct credentials (password may contain ":")', mw(req({ authorization: 'Basic ' + btoa('u:p:w') })).headers.get('x-middleware-next') === '1');
 check('middleware basic auth: 401 response is also noindex', mw(req()).headers.get('X-Robots-Tag') === 'noindex, nofollow');
 
+// ── Language selection ──
+setEnv({});
+const lreq = (path, headers = {}, method = 'GET') => new Request('https://x.test' + path, { method, headers });
+const loc = (r) => r?.headers?.get('location');
+check('lang: Accept-Language en on "/" -> 302 /en/', (() => { const r = mw(lreq('/', { 'accept-language': 'en-US,en;q=0.9' })); return r.status === 302 && loc(r) === 'https://x.test/en/'; })());
+check('lang: Accept-Language de -> /en/ (every non-Bulgarian language)', loc(mw(lreq('/', { 'accept-language': 'de-DE' }))) === 'https://x.test/en/');
+check('lang: Accept-Language bg stays on "/"', mw(lreq('/', { 'accept-language': 'bg-BG,bg;q=0.9,en;q=0.8' })).status !== 302);
+check('lang: highest q wins (en;q=0.9 beats bg;q=0.5)', loc(mw(lreq('/', { 'accept-language': 'bg;q=0.5,en;q=0.9' }))) === 'https://x.test/en/');
+check('lang: no Accept-Language stays on "/"', mw(lreq('/')).status !== 302);
+check('lang: saved cookie bg beats Accept-Language en', mw(lreq('/', { 'accept-language': 'en', cookie: 'a=1; lang=bg' })).status !== 302);
+check('lang: saved cookie en redirects even for Bulgarian browsers', loc(mw(lreq('/', { 'accept-language': 'bg', cookie: 'lang=en' }))) === 'https://x.test/en/');
+check('lang: deep links are never redirected', mw(lreq('/services/', { 'accept-language': 'en' })).status !== 302);
+check('lang: crawlers are never redirected', mw(lreq('/', { 'accept-language': 'en', 'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)' })).status !== 302);
+check('lang: POST to "/" is not redirected', mw(lreq('/', { 'accept-language': 'en' }, 'POST')).status !== 302);
+setEnv({ SITE_ENV: 'production', VERCEL_ENV: 'production' });
+check('lang (production): redirect works, no X-Robots-Tag added', (() => { const r = mw(lreq('/', { 'accept-language': 'en' })); return r.status === 302 && !r.headers.get('X-Robots-Tag'); })());
+check('lang (production): other requests untouched', mw(lreq('/services/', { 'accept-language': 'en' })) === undefined);
+
+// ── Bilingual structure ──
+const pairs = ['', 'services/', 'trainings/', 'privacy/', 'sent/'];
+check('both languages exist for every page', pairs.every((p) => existsSync(`dist-verify-stg/${p}index.html`) && existsSync(`dist-verify-stg/en/${p}index.html`)));
+check('bg pages: lang=bg and no Latin-only copy leaks in (h1 has Cyrillic)', pairs.every((p) => { const h = readFileSync(`dist-verify-stg/${p}index.html`, 'utf8'); return /<html lang="bg">/.test(h) && /<h1[^>]*>[^<]*[А-я]/.test(h); }));
+check('en pages: lang=en and no Cyrillic in visible copy', pairs.every((p) => { const h = readFileSync(`dist-verify-stg/en/${p}index.html`, 'utf8'); const vis = h.replace(/<(script|style)[\s\S]*?<\/\1>/g, '').replace(/<!--[\s\S]*?-->/g, '').replace(/БГ/g, ''); return /<html lang="en">/.test(h) && !/[А-я]/.test(vis); }));
+check('language switch links to the equivalent page (not #)', (() => { const h = readFileSync('dist-verify-stg/services/index.html', 'utf8'); return h.includes('href="/en/services/" data-lang="en"') && !/data-lang="en"[^>]*href="#"/.test(h); })());
+const prodHtml = readFileSync('dist-verify-prod/index.html', 'utf8');
+check('production: hreflang bg/en/x-default, JSON-LD Person + ProfessionalService, og:image', ['hreflang="bg"', 'hreflang="en"', 'hreflang="x-default"', '"@type":"Person"', '"@type":"ProfessionalService"', 'og:image'].every((x) => prodHtml.includes(x)));
+check('production: sitemap lists both languages with hreflang, no /sent/', (() => { const m = readFileSync('dist-verify-prod/sitemap.xml', 'utf8'); return m.includes('/en/services/') && m.includes('hreflang="x-default"') && !m.includes('/sent/'); })());
+check('staging: no JSON-LD / og:url pointing at production, no consent code', (() => { const h = readFileSync('dist-verify-stg/index.html', 'utf8'); return !h.includes('application/ld+json') && !h.includes('og:url') && !h.includes('consent-banner') && !h.includes('trk-config') && !existsSync('dist-verify-stg/js/consent.js'); })());
+check('og image is 1200x630', (await (await import('sharp')).default('dist-verify-prod/img/og.jpg').metadata()).width === 1200);
+check('tracking: production without ENABLE_TRACKING ships no banner or loader', !prodHtml.includes('consent-banner') && !existsSync('dist-verify-prod/js/consent.js'));
+build({ SITE_ENV: 'production', VERCEL_ENV: 'production', ENABLE_TRACKING: 'true', GA4_ID: 'G-TEST', FB_PIXEL_ID: '123' }, 'dist-verify-trk');
+const trk = readFileSync('dist-verify-trk/index.html', 'utf8');
+check('tracking: with ENABLE_TRACKING a banner + config + consent.js are present, and no third-party script loads before consent', trk.includes('id="consent-banner"') && trk.includes('G-TEST') && !/googletagmanager|connect\.facebook\.net/.test(trk) && existsSync('dist-verify-trk/js/consent.js'));
+build({ SITE_ENV: '', ENABLE_TRACKING: 'true', GA4_ID: 'G-TEST' }, 'dist-verify-trk2');
+check('tracking: ENABLE_TRACKING=true is ignored outside production', !readFileSync('dist-verify-trk2/index.html', 'utf8').includes('consent-banner'));
+
 console.log(failed ? `\n${failed} check(s) FAILED` : '\nAll checks passed');
 process.exit(failed ? 1 : 0);

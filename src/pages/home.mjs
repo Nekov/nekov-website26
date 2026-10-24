@@ -163,7 +163,7 @@ function asia(c) {
     <h2 id="asia-h" class="narrow">${esc(a.h2)}</h2>
     <p class="lead narrow">${esc(a.text)}</p>
     <ul class="countries">
-${a.cards.map(([n, d]) => `      <li class="card card--inset"><h3>${esc(n)}</h3>${d ? `<p>${esc(d)}</p>` : ''}<p class="ph-line">${t(a.learned)}</p></li>`).join('\n')}
+${a.cards.map(([n, d]) => `      <li class="card card--inset"><h3>${esc(n)}</h3><p>${esc(d)}</p></li>`).join('\n')}
     </ul>
   </div>
 </section>`;
@@ -180,7 +180,6 @@ function testimonials(c) {
     <div class="grid grid--2">
 ${rest.map((i) => `      <figure class="card quote"><blockquote><p>${esc(i.q)}</p></blockquote>${cite(i).replace(/footer/g, 'figcaption')}</figure>`).join('\n')}
     </div>
-    <p class="dashed">${t(x.more)}</p>
   </div>
 </section>`;
 }
@@ -207,14 +206,14 @@ function media(c, img) {
   <div class="wrap">
     <p class="label">${esc(m.label)}</p>
     <h2 id="media-h" class="narrow">${esc(m.h2)}</h2>
-    <div class="grid grid--3">
-${m.cards.map((x) => `      <article class="card"><h3>${t(x)}</h3><p>${t(m.cardMeta)}</p></article>`).join('\n')}
+    <div class="grid grid--2">
+${m.cards.map((x) => `      <a class="card card--link" href="${x.href}" target="_blank" rel="noopener"><p class="meta meta--ivory">${esc(x.meta)}</p><h3>${esc(x.title)}</h3><p class="card__cta">${esc(m.cardCta)}</p></a>`).join('\n')}
     </div>
     <div class="trainings">
       <div class="trainings__text">
         <h3>${esc(tr.title)}</h3>
         <p>${esc(tr.text)}</p>
-        <a class="btn btn--forest" href="/trainings/">${esc(tr.cta)}</a>
+        <a class="btn btn--forest" href="${c.base}/trainings/">${esc(tr.cta)}</a>
       </div>
       ${img('nekov-speaking-4', { alt: tr.alt1, sizes: '(max-width: 860px) 45vw, 220px' })}
       ${img('nekov-speaking-5', { alt: tr.alt2, sizes: '(max-width: 860px) 45vw, 360px' })}
@@ -232,7 +231,7 @@ ${c.faq.items.map(([q, a]) => `    <details><summary>${esc(q)}</summary><p>${t(a
 
 export function contact(c, source = '/') {
   const k = c.contact, f = k.fields;
-  const target = formTarget({ subject: 'Нова заявка от nekov.com' });
+  const target = formTarget({ subject: c.lang === 'en' ? 'New enquiry from nekov.com' : 'Нова заявка от nekov.com', nextPath: `${c.base}/sent/` });
   return `<section class="band band--forest" id="contact" aria-labelledby="contact-h">
   <div class="wrap contact">
     <div>
@@ -242,7 +241,7 @@ export function contact(c, source = '/') {
       <ul class="ticks">${k.ticks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
     </div>
     <form class="form" action="${target.action}" method="post">
-      <input type="hidden" name="language" value="bg">
+      <input type="hidden" name="language" value="${c.lang}">
       <input type="hidden" name="source" value="${source}">
       ${target.fields}
       <label for="cf-name">${esc(f.name)}</label>
@@ -253,7 +252,7 @@ export function contact(c, source = '/') {
       <select id="cf-topic" name="topic" required>${k.topics.map((x) => `<option>${esc(x)}</option>`).join('')}</select>
       <label for="cf-message">${esc(f.message)}</label>
       <textarea id="cf-message" name="message" rows="4"></textarea>
-      <label class="consent"><input type="checkbox" name="consent" required> <span>${esc(k.consentPre)}<a href="/privacy/">${esc(k.consentLink)}</a></span></label>
+      <label class="consent"><input type="checkbox" name="consent" required> <span>${esc(k.consentPre)}<a href="${c.base}/privacy/">${esc(k.consentLink)}</a></span></label>
       <button class="btn btn--brass" type="submit">${esc(k.submit)}</button>
       <a class="btn btn--outline" href="${CALENDLY}" target="_blank" rel="noopener">${esc(k.calendar)}</a>
     </form>
