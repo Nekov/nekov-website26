@@ -1,5 +1,6 @@
 import { CALENDLY, esc, t } from '../layout.mjs';
 import { contact, models } from './home.mjs';
+import { formTarget } from '../forms.mjs';
 
 function pillarBlock(s, p, n) {
   const L = s.labels;
@@ -24,6 +25,8 @@ function pillarBlock(s, p, n) {
 
 function session(c, stripeConfigured) {
   const s = c.services.session, m = c.models.session, q = s.q;
+  // After the intake, FormSubmit sends the visitor on to the Stripe Payment Link (test-mode on staging).
+  const target = formTarget({ subject: 'Нова заявка за стратегическа сесия от nekov.com', nextUrl: process.env.STRIPE_SESSION_LINK || undefined });
   return `<section class="band band--ivory" id="session" aria-labelledby="session-h">
   <div class="wrap session-block">
     <div>
@@ -32,12 +35,12 @@ function session(c, stripeConfigured) {
       <p class="lead muted">${esc(m.text)}</p>
       <p class="muted">${esc(s.intro)}</p>
     </div>
-    <form class="form form--ivory" action="/api/contact/" method="post">
+    <form class="form form--ivory" action="${target.action}" method="post">
       <input type="hidden" name="intent" value="session">
       <input type="hidden" name="topic" value="Стратегическа сесия">
       <input type="hidden" name="language" value="bg">
       <input type="hidden" name="source" value="/services/">
-      <p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>
+      ${target.fields}
       <label for="ss-name">${esc(c.contact.fields.name)}</label>
       <input id="ss-name" name="name" type="text" autocomplete="name" required>
       <label for="ss-email">${esc(c.contact.fields.email)}</label>

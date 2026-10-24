@@ -31,6 +31,15 @@ check('production: home has no noindex, has canonical + hreflang', !/noindex/.te
 check('production: /sent/ stays noindex, /services/ is indexable', /noindex/.test(readFileSync('dist-verify-prod/sent/index.html', 'utf8')) && !/noindex/.test(readFileSync('dist-verify-prod/services/index.html', 'utf8')));
 check('production: /workshop byte-identical to source', execFileSync('diff', ['-r', 'workshop', 'dist-verify-prod/workshop']).length === 0);
 
+// ── Form targets (FormSubmit blocks cloud servers, so browsers post to it directly) ──
+const withAlias = (env, out) => { execFileSync('node', ['scripts/build.mjs'], { env: { ...process.env, FORMSUBMIT_ALIAS: 'abc123', STRIPE_SESSION_LINK: 'https://buy.stripe.com/test_x', ...env, OUT_DIR: out }, stdio: 'pipe' }); return [readFileSync(`${out}/index.html`, 'utf8'), readFileSync(`${out}/services/index.html`, 'utf8')]; };
+const [stgHome, stgSvc] = withAlias({ SITE_ENV: '', VERCEL_BRANCH_URL: 'stg.example.test' }, 'dist-verify-f1');
+check('forms (staging): post to FormSubmit, [STAGING] subject, returns to staging /sent/', stgHome.includes('action="https://formsubmit.co/abc123"') && stgHome.includes('[STAGING] ') && stgHome.includes('value="https://stg.example.test/sent/"'));
+check('forms (staging): session intake continues to the Stripe link', stgSvc.includes('name="_next" value="https://buy.stripe.com/test_x"'));
+const [prodHome] = withAlias({ SITE_ENV: 'production', VERCEL_ENV: 'production' }, 'dist-verify-f2');
+check('forms (production): no [STAGING] prefix, returns to nekov.com/sent/', !prodHome.includes('[STAGING]') && prodHome.includes('value="https://www.nekov.com/sent/"'));
+check('forms: no alias falls back to /api/contact/', readFileSync('dist-verify-stg/index.html', 'utf8').includes('action="/api/contact/"'));
+
 // ── Contact endpoint ──
 const { handleContact } = await import('../lib/contact.js');
 process.env.LEADS_DIR = 'dist-verify-leads';

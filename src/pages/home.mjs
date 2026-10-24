@@ -1,4 +1,5 @@
 import { CALENDLY, esc, t } from '../layout.mjs';
+import { formTarget } from '../forms.mjs';
 
 // Feature flags. The availability card stays off until Nikolay confirms it is true.
 const FLAGS = { availabilityCard: false };
@@ -231,6 +232,7 @@ ${c.faq.items.map(([q, a]) => `    <details><summary>${esc(q)}</summary><p>${t(a
 
 export function contact(c, source = '/') {
   const k = c.contact, f = k.fields;
+  const target = formTarget({ subject: 'Нова заявка от nekov.com' });
   return `<section class="band band--forest" id="contact" aria-labelledby="contact-h">
   <div class="wrap contact">
     <div>
@@ -239,10 +241,10 @@ export function contact(c, source = '/') {
       <p class="lead">${esc(k.text)}</p>
       <ul class="ticks">${k.ticks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
     </div>
-    <form class="form" action="/api/contact/" method="post">
+    <form class="form" action="${target.action}" method="post">
       <input type="hidden" name="language" value="bg">
       <input type="hidden" name="source" value="${source}">
-      <p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>
+      ${target.fields}
       <label for="cf-name">${esc(f.name)}</label>
       <input id="cf-name" name="name" type="text" autocomplete="name" required>
       <label for="cf-email">${esc(f.email)}</label>
