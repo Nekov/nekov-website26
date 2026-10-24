@@ -48,7 +48,7 @@ check('contact: emails via FormSubmit alias, [STAGING] subject on staging', sent
 sent.length = 0;
 await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', SITE_ENV: 'production', VERCEL_ENV: 'production', LEADS_DIR: 'dist-verify-leads' });
 check('contact: no [STAGING] prefix in production', sent[0] && !sent[0].body._subject.startsWith('[STAGING]'));
-check('contact: email failure falls back to local copy', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: 'dist-verify-leads' }, async () => { throw new Error('down'); })).headers.get('location') === '/sent/');
+check('contact: email failure with alias set is an error, not a fake success', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: 'dist-verify-leads' }, async () => { throw new Error('down'); })).status === 502);
 check('contact: error when both email and storage fail', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: '/dev/null/x' }, async () => ({ ok: false, json: async () => ({}) }))).status === 502);
 check('contact: HTTP 200 with success:"false" (not activated) is NOT treated as delivered', (await mock(ok, { FORMSUBMIT_ALIAS: 'abc123', LEADS_DIR: '/dev/null/x' }, async () => ({ ok: true, json: async () => ({ success: 'false' }) }))).status === 502);
 const same = { 'x-forwarded-for': '9.9.9.9' };
