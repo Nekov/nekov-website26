@@ -198,11 +198,11 @@ p{margin:0 0 1em}
 
 /* about */
 .about{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
-@media (max-width:860px){.about{grid-template-columns:1fr}.about img{max-width:420px}}
+@media (max-width:860px){.about{grid-template-columns:minmax(0,1fr)}.about img{width:100%;max-width:min(420px,100%)}}
 .stats{display:grid;grid-template-columns:repeat(3,auto);gap:24px 40px;justify-content:start;margin:32px 0}
 .stats dt{font:500 clamp(36px,4vw,52px)/1 var(--serif);color:var(--brass)}
 .stats dd{margin:6px 0 0;font-size:15px;color:var(--muted-on-forest);max-width:16ch}
-@media (max-width:560px){.stats{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .orgs{font-size:15px;color:var(--muted-on-forest);margin:0}
 
 /* media + trainings */
