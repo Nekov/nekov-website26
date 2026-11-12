@@ -56,16 +56,15 @@ export const en = {
     h2: 'From marketplace to ecosystem',
     lead: 'I started with a marketplace in a market that was new to the country. Today I am building a network of eco-luxury retreats in South-East Europe. This is the path I take my clients along.',
     karavani: {
-      name: 'Karavani.bg', meta: '[2021 – 2025] · Co-founder and CEO',
+      name: 'Karavani.bg', meta: 'Co-founder and CEO',
       text: 'The largest online platform for camping and outdoor tourism in Bulgaria.',
-      bullets: ['4.5x growth in six months', 'BGN 120,000 funding raised', '[165+ / 230] listings on the platform'],
+      bullets: ['4.5x growth in six months', 'BGN 120,000 funding raised'],
     },
     nextribe: {
       name: 'Nextribe', meta: '2023 – today · Founder and CEO',
       text: 'From a booking platform to a system of our own: we design timber modular houses, choose the land and run the hospitality.',
       bullets: ['10/10 guest rating', 'ADR €150', 'Vesta: 27–99 m², delivered in 90 days', 'projects in other countries', 'Endeavor Dare2Scale'],
     },
-    photo: '[Nextribe photo – needed from Nikolay]',
   },
   cases: {
     label: 'Case studies',
@@ -84,7 +83,6 @@ export const en = {
       tag: 'Gamification and loyalty', name: 'Utopia Forest',
       challenge: 'How to keep hotel and restaurant guests under one roof.',
       built: 'A loyalty programme with points, levels and challenges.',
-      result: '[metric after launch – needed]',
     },
   },
   models: {
@@ -94,7 +92,7 @@ export const en = {
     project: {
       name: 'Project: Idea → Launch Sprint',
       text: 'A precisely defined scope, timeline and outcome. Concept, business model, brand, website or MVP, go-to-market and launch – with my team and partners.',
-      term: 'Duration: [6–10 weeks]', cta: 'Describe your project →',
+      cta: 'Describe your project →',
     },
     partner: {
       name: 'Partnership: Venture Partner',
@@ -111,7 +109,7 @@ export const en = {
     h2: 'A predictable process. A large scope in a short time.',
     steps: [
       ['Conversation', '30 minutes. We understand the situation and set the direction.'],
-      ['Diagnosis and proposal', 'A written proposal with scope, timeline, team and price within [48 hours].'],
+      ['Diagnosis and proposal', 'A written proposal with scope, timeline, team and price.'],
       ['Delivery', 'Weekly sprints, clear results, one point of contact with a team behind them.'],
       ['Review and next step', 'We measure the result and decide whether to continue as a partnership.'],
     ],
@@ -119,7 +117,7 @@ export const en = {
       title: 'Team and partners',
       text: 'Behind every project stands a vetted network of specialists – developers, strategic communication, software teams. This is how large and complex models are delivered fast and to a high standard.',
       chips: ['Development', 'Strategic communication', 'Software and automation', 'Design and brand'],
-      placeholders: ['[partner name]', '[partner name]'],
+      placeholders: [],
     },
   },
   asia: {
@@ -160,11 +158,10 @@ export const en = {
   faq: {
     h2: 'Frequently asked questions',
     items: [
-      ['Who do I work with best?', 'With founders and companies that have a real idea or business and want to build something bigger. [Who I do NOT take on – Nikolay to add.]'],
-      ['How long does a project take?', 'It depends on the scope. A typical Idea → Launch Sprint is [6–10 weeks]. You get the exact timeline in the proposal.'],
+      ['Who do I work with best?', 'With founders and companies that have a real idea or business and want to build something bigger.'],
+      ['How long does a project take?', 'It depends on the scope. You get the exact timeline in the proposal.'],
       ['How does this fit with Nextribe?', 'Nextribe is proof that I build real businesses. I work with a limited number of clients and a vetted team – you get both me and delivery capacity.'],
       ['Do you help with raising investment?', "Yes. I prepare the story, the numbers and the presentation so that they stand up in front of investors. The decision is the investor's; the preparation is mine."],
-      ['How does payment work and what is the contract?', '[Staged payment for projects, monthly invoice for partnership; contract with [legal entity name] – Nikolay to confirm.]'],
     ],
   },
   contact: {
@@ -186,22 +183,22 @@ export const en = {
     onRequest: 'on request',
     cta: 'Describe your project →',
     pillars: [
-      { id: 'venture', title: 'Venture building', who: 'Founders and SMEs launching a new business or product.', included: ['Validation', 'Business model', 'Brand', 'Website or MVP', 'Go-to-market', 'Launch'], gets: 'A working business, not a document.', timeline: '[timeline – from Nikolay]', example: 'JAYA Tribe' },
-      { id: 'marketplaces', title: 'Marketplaces', who: 'Founders and SMEs building a new marketplace.', included: ['Supply and demand', 'First liquidity', 'Growth'], gets: 'A platform that attracts both sides.', timeline: '[timeline – from Nikolay]', example: 'Karavani.bg' },
-      { id: 'gamification', title: 'Gamification and loyalty', who: 'Corporates and businesses building engagement and loyalty systems.', included: ['Engagement systems for B2C and B2B products', 'A programme with points, levels and challenges'], gets: 'A programme customers actually use.', timeline: '[timeline – from Nikolay]', example: 'Utopia Forest' },
-      { id: 'fundraising', title: 'Fundraising readiness', who: 'Founders preparing for investor conversations.', included: ['Pitch deck structure', 'Financial story', 'Presentation coaching'], gets: 'Investor materials that withstand questions.', timeline: '[timeline – from Nikolay]', example: '' },
+      { id: 'venture', title: 'Venture building', who: 'Founders and SMEs launching a new business or product.', included: ['Validation', 'Business model', 'Brand', 'Website or MVP', 'Go-to-market', 'Launch'], gets: 'A working business, not a document.', example: 'JAYA Tribe' },
+      { id: 'marketplaces', title: 'Marketplaces', who: 'Founders and SMEs building a new marketplace.', included: ['Supply and demand', 'First liquidity', 'Growth'], gets: 'A platform that attracts both sides.', example: 'Karavani.bg' },
+      { id: 'gamification', title: 'Gamification and loyalty', who: 'Corporates and businesses building engagement and loyalty systems.', included: ['Engagement systems for B2C and B2B products', 'A programme with points, levels and challenges'], gets: 'A programme customers actually use.', example: 'Utopia Forest' },
+      { id: 'fundraising', title: 'Fundraising readiness', who: 'Founders preparing for investor conversations.', included: ['Pitch deck structure', 'Financial story', 'Presentation coaching'], gets: 'Investor materials that withstand questions.', example: '' },
     ],
     session: {
       label: 'Strategy session', h2: 'Strategy session', price: '360 €',
       intro: 'A few questions about your business and goal first, so we start prepared. Then you continue to payment.',
       q: { business: 'What does your business do?', goal: 'What is your goal for the next 3–6 months?', stage: 'What stage are you at (idea, pilot, first customers, growth)?' },
       submit: 'Continue to payment →',
-      noLink: '[Stripe Payment Link – not set yet]',
+      requestCta: 'Request the session →',
+      introNoPay: 'A few questions about your business and goal first, so we start prepared.',
     },
     team: {
       label: 'The team', h2: 'What the team delivers',
       text: 'Performance marketing · digital and brand strategy · CRO and UX/UI · automation and personalisation · business consulting.',
-      confirm: '[Nikolay to confirm the list is current]',
     },
   },
   trainings: {

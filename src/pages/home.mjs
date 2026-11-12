@@ -75,7 +75,6 @@ function ecosystem(c, img) {
         ${list(e.nextribe.bullets, 'ticks')}
       </article>
     </div>
-    <div class="band-photo" role="img" aria-label="${esc(e.photo)}"><span>${t(e.photo)}</span></div>
   </div>
 </section>`;
 }
@@ -101,7 +100,7 @@ function cases(c, img) {
         <h3>${esc(u.name)}</h3>
         <p><strong>${esc(k.challengeLabel)}:</strong> ${esc(u.challenge)}</p>
         <p><strong>${esc(k.builtLabel)}:</strong> ${esc(u.built)}</p>
-        <p class="stat-row"><span>${t(u.result)}</span></p>
+        ${u.result ? `<p class="stat-row"><span>${t(u.result)}</span></p>` : ''}
       </article>
     </div>
   </div>
@@ -118,7 +117,7 @@ export function models(c, withSession = true) {
       <article class="card model">
         <h3>${esc(m.project.name)}</h3>
         <p>${esc(m.project.text)}</p>
-        <p class="meta meta--ivory">${t(m.project.term)}</p>
+        ${m.project.term ? `<p class="meta meta--ivory">${t(m.project.term)}</p>` : ''}
         <p class="price">${esc(m.onRequest)}</p>
         <a class="btn btn--forest" href="#contact">${esc(m.project.cta)}</a>
       </article>

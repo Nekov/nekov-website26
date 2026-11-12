@@ -16,7 +16,7 @@ function pillarBlock(s, p, n) {
       <div><dt>${esc(L.who)}</dt><dd>${esc(p.who)}</dd></div>
       <div><dt>${esc(L.included)}</dt><dd><ul class="ticks">${p.included.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></dd></div>
       <div><dt>${esc(L.gets)}</dt><dd>${esc(p.gets)}</dd></div>
-      <div><dt>${esc(L.timeline)}</dt><dd>${t(p.timeline)}</dd></div>
+      ${p.timeline ? `<div><dt>${esc(L.timeline)}</dt><dd>${t(p.timeline)}</dd></div>` : ''}
       ${p.example ? `<div><dt>${esc(L.example)}</dt><dd>${esc(p.example)}</dd></div>` : ''}
     </dl>
   </div>
@@ -33,7 +33,7 @@ function session(c, stripeConfigured) {
       <p class="label">${esc(s.label)}</p>
       <h2 id="session-h">${esc(s.h2)} <span class="session__price">${esc(s.price)}</span></h2>
       <p class="lead muted">${esc(m.text)}</p>
-      <p class="muted">${esc(s.intro)}</p>
+      <p class="muted">${esc(stripeConfigured ? s.intro : s.introNoPay)}</p>
     </div>
     <form class="form form--ivory" action="${target.action}" method="post">
       <input type="hidden" name="intent" value="session">
@@ -52,8 +52,7 @@ function session(c, stripeConfigured) {
       <label for="ss-stage">${esc(q.stage)}</label>
       <input id="ss-stage" name="intake_stage" type="text" required>
       <label class="consent"><input type="checkbox" name="consent" required> <span>${esc(c.contact.consentPre)}<a href="${c.base}/privacy/">${esc(c.contact.consentLink)}</a></span></label>
-      <button class="btn btn--forest" type="submit">${esc(s.submit)}</button>
-      ${stripeConfigured ? '' : `<p class="small">${t(s.noLink)}</p>`}
+      <button class="btn btn--forest" type="submit">${esc(stripeConfigured ? s.submit : s.requestCta)}</button>
     </form>
   </div>
 </section>`;
@@ -76,7 +75,7 @@ ${session(c, stripeConfigured)}
     <p class="label">${esc(s.team.label)}</p>
     <h2 id="team-h">${esc(s.team.h2)}</h2>
     <p class="lead narrow">${esc(s.team.text)}</p>
-    <p class="muted small">${t(s.team.confirm)}</p>
+    ${s.team.confirm ? `<p class="muted small">${t(s.team.confirm)}</p>` : ''}
   </div>
 </section>
 ${contact(c, `${c.base}/services/`)}`;

@@ -40,6 +40,12 @@ const [prodHome] = withAlias({ SITE_ENV: 'production', VERCEL_ENV: 'production' 
 check('forms (production): no [STAGING] prefix, returns to nekov.com/sent/', !prodHome.includes('[STAGING]') && prodHome.includes('value="https://www.nekov.com/sent/"'));
 check('forms: no alias falls back to /api/contact/', readFileSync('dist-verify-stg/index.html', 'utf8').includes('action="/api/contact/"'));
 
+// ── Launch gate: production may not show placeholders (only the privacy text is still outstanding) ──
+const phLeft = ['', 'en/'].flatMap((l) => ['', 'services/', 'trainings/', 'sent/'].map((p) => `${l}${p}`)).filter((p) => /class="ph"/.test(readFileSync(`dist-verify-prod/${p}index.html`, 'utf8')));
+check('launch gate: no placeholders left on any page except /privacy/', phLeft.length === 0);
+const phPriv = ['privacy/', 'en/privacy/'].filter((p) => /class="ph"/.test(readFileSync(`dist-verify-prod/${p}index.html`, 'utf8')));
+console.log(`INFO  privacy text still a placeholder on: ${phPriv.join(', ') || 'none'}`);
+
 // ── Contact endpoint ──
 const { handleContact } = await import('../lib/contact.js');
 process.env.LEADS_DIR = 'dist-verify-leads';
