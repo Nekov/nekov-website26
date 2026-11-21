@@ -265,7 +265,7 @@ p{margin:0 0 1em}
 .consent-banner{position:fixed;left:16px;right:16px;bottom:16px;z-index:50;max-width:760px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--forest-deep);color:var(--ivory);border:1px solid var(--forest-line);border-radius:8px;font-size:15px}
 .consent-banner[hidden]{display:none}
 .consent-banner p{margin:0;flex:1 1 300px}
-.consent-banner a{color:var(--brass)}
+.consent-banner a{color:var(--brass);display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
 .consent-banner .btn{min-height:44px;padding:0 20px}
 .linklike{background:none;border:0;padding:0;margin:0 0 0 20px;min-height:44px;color:inherit;font:inherit;cursor:pointer;text-decoration:underline}
 .linklike:hover{color:var(--brass)}
