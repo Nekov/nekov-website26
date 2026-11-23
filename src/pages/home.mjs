@@ -168,16 +168,20 @@ ${a.cards.map(([n, d]) => `      <li class="card card--inset"><h3>${esc(n)}</h3>
 </section>`;
 }
 
-function testimonials(c) {
+function testimonials(c, img) {
   const x = c.testimonials, [first, ...rest] = x.items;
-  const cite = (i) => `<footer><strong>${esc(i.who)}</strong>, ${esc(i.role)}</footer>`;
+  const cite = (i) => `<figcaption><strong>${esc(i.who)}</strong>, ${esc(i.role)}</figcaption>`;
+  const avatar = first.photo ? img(first.photo, { alt: first.who, sizes: '112px', cls: 'avatar' }) : '';
   return `<section class="band band--ivory" id="reviews" aria-labelledby="rev-h">
   <div class="wrap">
     <h2 class="sr" id="rev-h">${esc(x.label)}</h2>
     <p class="label" aria-hidden="true">${esc(x.label)}</p>
-    <figure class="quote quote--lead"><blockquote><p>${esc(first.q)}</p></blockquote>${cite(first).replace('footer', 'figcaption')}</figure>
+    <figure class="quote quote--lead${avatar ? ' quote--with-photo' : ''}">
+      ${avatar}
+      <div><blockquote><p>${esc(first.q)}</p></blockquote>${cite(first)}</div>
+    </figure>
     <div class="grid grid--2">
-${rest.map((i) => `      <figure class="card quote"><blockquote><p>${esc(i.q)}</p></blockquote>${cite(i).replace(/footer/g, 'figcaption')}</figure>`).join('\n')}
+${rest.map((i) => `      <figure class="card quote"><blockquote><p>${esc(i.q)}</p></blockquote>${cite(i)}</figure>`).join('\n')}
     </div>
   </div>
 </section>`;
@@ -261,6 +265,6 @@ export function contact(c, source = '/') {
 
 export function home(c, img) {
   const availability = FLAGS.availabilityCard ? '' : '';
-  return [hero(c, img), availability, recognition(c), pillars(c), ecosystem(c, img), cases(c, img), models(c), process(c), asia(c), testimonials(c), about(c, img), media(c, img), faq(c), contact(c)]
+  return [hero(c, img), availability, recognition(c), pillars(c), ecosystem(c, img), cases(c, img), models(c), process(c), asia(c), testimonials(c, img), about(c, img), media(c, img), faq(c), contact(c)]
     .filter(Boolean).join('\n');
 }

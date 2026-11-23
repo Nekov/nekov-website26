@@ -11,6 +11,7 @@ const SOURCES = {
   'nekov-speaking-5': 'nekov-speaking-5.jpeg',
   'jaya-website': 'jaya-website.png',
   'utopia-forest': 'utopia-forest-loyalty.png',
+  'alexandra-algafari': 'alexandra-algafari.jpeg',
 };
 
 export async function buildImages(root, out) {

@@ -274,3 +274,6 @@ p{margin:0 0 1em}
 .card--link h3{margin:4px 0 16px}
 .card__cta{margin:0;font-weight:600;color:var(--forest)!important}
 .case img.photo--full{aspect-ratio:auto;object-fit:contain;height:auto}
+.quote--with-photo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:start}
+.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;object-position:center 25%}
+@media (max-width:560px){.quote--with-photo{grid-template-columns:1fr}.avatar{width:88px;height:88px}}

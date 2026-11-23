@@ -133,7 +133,7 @@ export const en = {
   testimonials: {
     label: 'Testimonials',
     items: [
-      { q: 'Working with Niki is a genuine pleasure. He helped me — and continues to help me — think at scale and move the project forward when things get tough. Within just a few months we built a successful and meaningful business that keeps growing every day.', who: 'Alexandra Algafari', role: 'Founder, JAYA Tribe' },
+      { q: 'Working with Niki is a genuine pleasure. He helped me — and continues to help me — think at scale and move the project forward when things get tough. Within just a few months we built a successful and meaningful business that keeps growing every day.', who: 'Alexandra Algafari', role: 'Founder, JAYA Tribe', photo: 'alexandra-algafari' },
       { q: 'His ideas significantly improved the competitiveness of our product. I recommend him for any organization looking for a high level of professionalism.', who: 'Lloyd Butler', role: 'Senior Manager, PayPal Australia' },
       { q: "I strongly recommend Niki and his team. He doesn't just help with marketing strategies — Niki is like a business partner. His opinion and advice have always been invaluable in building and growing my business.", who: 'Alexandra Stoyanova', role: 'Founder, Sunny Rooms' },
     ],
