@@ -46,6 +46,21 @@ check('launch gate: no placeholders left on any page except /privacy/', phLeft.l
 const phPriv = ['privacy/', 'en/privacy/'].filter((p) => /class="ph"/.test(readFileSync(`dist-verify-prod/${p}index.html`, 'utf8')));
 console.log(`INFO  privacy text still a placeholder on: ${phPriv.join(', ') || 'none'}`);
 
+// ── SEO / AI discoverability ──
+{
+  const ldOf = (f) => [...readFileSync(f, 'utf8').matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+  const types = (f) => ldOf(f).flatMap((j) => j['@graph'] || [j]).map((x) => x['@type']);
+  check('JSON-LD parses; home has Person + ProfessionalService + FAQPage (both languages)', ['index.html', 'en/index.html'].every((p) => ['Person', 'ProfessionalService', 'FAQPage'].every((t) => types('dist-verify-prod/' + p).includes(t))));
+  const faq = ldOf('dist-verify-prod/index.html').flatMap((j) => j['@graph']).find((x) => x['@type'] === 'FAQPage');
+  check('FAQPage questions match the visible FAQ', faq.mainEntity.length === (readFileSync('dist-verify-prod/index.html', 'utf8').match(/<details>/g) || []).length);
+  const svc = ldOf('dist-verify-prod/services/index.html').flatMap((j) => j['@graph']).find((x) => x.hasOfferCatalog);
+  check('services page lists its four offers as structured data, with no price', svc?.hasOfferCatalog.itemListElement.length === 4 && !JSON.stringify(svc).includes('price'));
+  check('twitter:card summary_large_image on every production page', ['', 'en/', 'services/', 'en/services/', 'trainings/', 'privacy/'].every((p) => readFileSync(`dist-verify-prod/${p}index.html`, 'utf8').includes('name="twitter:card" content="summary_large_image"')));
+  check('llms.txt only in production; links use the production host', existsSync('dist-verify-prod/llms.txt') && !existsSync('dist-verify-stg/llms.txt') && !/localhost|vercel\.app/.test(readFileSync('dist-verify-prod/llms.txt', 'utf8')));
+  check('llms.txt mentions only known amounts (360 € session, €400k raised, €150 ADR)', (readFileSync('dist-verify-prod/llms.txt', 'utf8').match(/[€$]\s?\d[\d,.]*k?|\d[\d,.]*\s?€/g) || []).every((m) => ['360 €', '€400k', '€150'].includes(m.trim())))
+  check('sitemap entries carry lastmod', /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(readFileSync('dist-verify-prod/sitemap.xml', 'utf8')));
+}
+
 // ── Contact endpoint ──
 const { handleContact } = await import('../lib/contact.js');
 process.env.LEADS_DIR = 'dist-verify-leads';

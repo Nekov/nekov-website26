@@ -18,10 +18,33 @@ export const ph = (s) => `<span class="ph">${esc(s)}</span>`;
 
 const SAME_AS = ['https://www.linkedin.com/in/nekov/', 'https://youtube.com/@NekovTalks', 'https://open.spotify.com/show/0Z8nmqnYq5uEvV0f5uHyLe'];
 
-function jsonld(c, site) {
-  const person = { '@type': 'Person', '@id': `${site}/#person`, name: 'Николай Неков', alternateName: 'Nikolay Nekov', url: `${site}/`, jobTitle: c.lang === 'en' ? 'Venture builder and business consultant' : 'Venture builder и бизнес консултант', sameAs: SAME_AS };
+function jsonld(c, site, kind) {
+  const person = {
+    '@type': 'Person', '@id': `${site}/#person`, name: 'Николай Неков', alternateName: 'Nikolay Nekov', url: `${site}/`,
+    image: `${site}/img/og.jpg`,
+    jobTitle: c.lang === 'en' ? 'Venture builder and business consultant' : 'Venture builder и бизнес консултант',
+    description: c.meta.description,
+    knowsAbout: c.pillars.items.map((i) => i.title),
+    sameAs: SAME_AS,
+  };
   const service = { '@type': 'ProfessionalService', '@id': `${site}/#service`, name: 'Nikolay Nekov', url: `${site}/`, founder: { '@id': `${site}/#person` }, sameAs: SAME_AS, areaServed: 'BG' };
-  return `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [person, service] }).replace(/</g, '\\u003c')}</script>`;
+  const graph = [person, service];
+  if (kind === 'home') {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: c.faq.items.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+    });
+  }
+  if (kind === 'services') {
+    service.hasOfferCatalog = {
+      '@type': 'OfferCatalog', name: c.services.h1,
+      itemListElement: c.services.pillars.map((p) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: p.title, description: `${p.who} ${p.gets}`, provider: { '@id': `${site}/#person` } },
+      })),
+    };
+  }
+  return `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c')}</script>`;
 }
 
 function head({ c, page, prod, site }) {
@@ -42,9 +65,13 @@ function head({ c, page, prod, site }) {
   <meta property="og:title" content="${esc(m.title)}">
   <meta property="og:description" content="${esc(m.description)}">
   <meta property="og:image" content="${site}/img/og.jpg">
+ <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${esc(m.title)}">
+  <meta name="twitter:description" content="${esc(m.description)}">
+  <meta name="twitter:image" content="${site}/img/og.jpg">
   <meta property="og:locale" content="${c.lang === 'en' ? 'en_US' : 'bg_BG'}">
   ${prod && page.canonical ? `<meta property="og:url" content="${site}${page.canonical}">` : ''}
-  ${prod && page.jsonld ? jsonld(c, site) : ''}
+  ${prod && page.jsonld ? jsonld(c, site, page.jsonld) : ''}
   <link rel="preload" href="/fonts/source-serif-4-${c.lang === 'bg' ? 'cyrillic' : 'latin'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-${c.lang === 'bg' ? 'cyrillic' : 'latin'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">

@@ -4,6 +4,7 @@ import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFi
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { llmsTxt } from './llms.mjs';
 import { isProduction, trackingEnabled } from '../lib/env.js';
 import { layout } from '../src/layout.mjs';
 import { bg } from '../src/content/bg.mjs';
@@ -35,8 +36,8 @@ const sitemap = [];
 
 // bg path -> { build(c), meta(c), noindex }
 const PAGES = [
-  { path: '/', meta: (c) => c.meta, body: (c) => home(c, img), jsonld: true },
-  { path: '/services/', meta: (c) => c.services.meta, body: (c) => services(c, { stripeConfigured }) },
+  { path: '/', meta: (c) => c.meta, body: (c) => home(c, img), jsonld: 'home' },
+  { path: '/services/', meta: (c) => c.services.meta, body: (c) => services(c, { stripeConfigured }), jsonld: 'services' },
   { path: '/trainings/', meta: (c) => c.trainings.meta, body: (c) => trainings(c, img) },
   { path: '/privacy/', meta: (c) => c.privacy.meta, body: (c) => privacy(c) },
   { path: '/sent/', meta: (c) => c.sent.meta, body: (c) => sent(c), noindex: true },
@@ -115,9 +116,11 @@ if (!prod) {
 } else {
   cpSync(join(root, 'robots.txt'), join(out, 'robots.txt'));
   const alt = (paths) => ['bg', 'en'].map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE}${paths[l]}"/>`).join('\n') + `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}${paths.bg}"/>`;
-  const urls = sitemap.flatMap((paths) => [paths.bg, paths.en].map((loc) => `  <url>\n    <loc>${SITE}${loc}</loc>\n${alt(paths)}\n  </url>`));
+  const today = new Date().toISOString().slice(0, 10);
+  const urls = sitemap.flatMap((paths) => [paths.bg, paths.en].map((loc) => `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${today}</lastmod>\n${alt(paths)}\n  </url>`));
   // /workshop is a separate landing page and keeps its own entries.
   for (const [bgp, enp] of [['/workshop/', '/en/workshop/']]) urls.push(...[bgp, enp].map((loc) => `  <url>\n    <loc>${SITE}${loc}</loc>\n${alt({ bg: bgp, en: enp })}\n  </url>`));
+  write('llms.txt', llmsTxt(en, SITE));
   write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join('\n')}\n</urlset>\n`);
 }
 
