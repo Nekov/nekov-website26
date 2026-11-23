@@ -81,7 +81,8 @@ export const en = {
     },
     utopia: {
       tag: 'Gamification and loyalty', name: 'Utopia Forest',
-      challenge: 'How to keep hotel and restaurant guests under one roof.',
+      challenge: 'How to keep hotel and restaurant guests under one roof. Increase the LTV of the guests.',
+      alt: 'Utopia Forest loyalty ecosystem: mobile app with levels and points',
       built: 'A loyalty programme with points, levels and challenges.',
     },
   },

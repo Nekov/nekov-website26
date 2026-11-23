@@ -10,6 +10,7 @@ const SOURCES = {
   'nekov-speaking-4': 'nekov-speaking-4.jpeg',
   'nekov-speaking-5': 'nekov-speaking-5.jpeg',
   'jaya-website': 'jaya-website.png',
+  'utopia-forest': 'utopia-forest-loyalty.png',
 };
 
 export async function buildImages(root, out) {

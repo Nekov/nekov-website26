@@ -95,7 +95,7 @@ function cases(c, img) {
         <p class="stat-row">${j.results.map((r) => `<span>${esc(r)}</span>`).join('')}</p>
       </article>
       <article class="card case">
-        <div class="case__ph" aria-hidden="true"></div>
+        ${img('utopia-forest', { alt: u.alt, sizes: '(max-width: 860px) 100vw, 560px', cls: 'photo photo--full' })}
         <p class="tag">${esc(u.tag)}</p>
         <h3>${esc(u.name)}</h3>
         <p><strong>${esc(k.challengeLabel)}:</strong> ${esc(u.challenge)}</p>

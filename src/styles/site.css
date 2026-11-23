@@ -273,3 +273,4 @@ p{margin:0 0 1em}
 .card--link:hover{border-color:var(--forest)}
 .card--link h3{margin:4px 0 16px}
 .card__cta{margin:0;font-weight:600;color:var(--forest)!important}
+.case img.photo--full{aspect-ratio:auto;object-fit:contain;height:auto}
