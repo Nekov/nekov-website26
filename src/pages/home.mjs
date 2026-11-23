@@ -1,5 +1,10 @@
+import { existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { CALENDLY, esc, t } from '../layout.mjs';
 import { formTarget } from '../forms.mjs';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 // Feature flags. The availability card stays off until Nikolay confirms it is true.
 const FLAGS = { availabilityCard: false };
@@ -25,12 +30,25 @@ function hero(c, img) {
 </section>`;
 }
 
+// Media logos are decorative proof, never links. A name renders as text until its logo file exists.
+const pressSlug = (n) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const press = (name) => {
+  const slug = pressSlug(name);
+  const ext = ['svg', 'png', 'webp'].find((e) => existsSync(join(ROOT, 'images/media', `${slug}.${e}`)));
+  return ext
+    ? `<li><img src="/images/media/${slug}.${ext}" alt="${esc(name)}" height="28" loading="lazy"></li>`
+    : `<li class="press__text">${esc(name)}</li>`;
+};
+
 const recognition = (c) => `<section class="band band--ivory band--tight" aria-labelledby="recognition">
   <div class="wrap">
     <h2 class="sr" id="recognition">${esc(c.recognition.label)}</h2>
     <p class="label" aria-hidden="true">${esc(c.recognition.label)}</p>
     <ul class="recog">${c.recognition.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>
-    <p class="muted small">${esc(c.recognition.press)}</p>
+    <div class="press">
+      <p class="muted small">${esc(c.recognition.pressLabel)}:</p>
+      <ul class="press__list">${c.recognition.press.map((n) => press(n)).join('')}</ul>
+    </div>
   </div>
 </section>`;
 

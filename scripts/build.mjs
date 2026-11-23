@@ -60,8 +60,8 @@ for (const p of PAGES) {
   if (!p.noindex && p.path !== '/privacy/') sitemap.push(paths);
 }
 
-// Open Graph image: a speaking photo at 1200x630.
-await sharp(join(root, 'images/nekov-speaking-1.jpg')).resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(join(out, 'img/og.jpg'));
+// Open Graph image: the hero portrait at 1200x630.
+await sharp(join(root, 'images/nikolay-hero.jpeg')).resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(join(out, 'img/og.jpg'));
 
 cpSync(join(root, 'src/fonts'), join(out, 'fonts'), { recursive: true });
 mkdirSync(join(out, 'css'), { recursive: true });

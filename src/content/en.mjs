@@ -36,7 +36,8 @@ export const en = {
   recognition: {
     label: 'Recognition',
     items: ['Endeavor Dare2Scale 2026', 'WEF Global Shaper', 'Darik Radio', '40 under 40', 'GITEX Europe 2025 (finalist)', 'Venture Cake (accelerator, Austria, 2025)'],
-    press: 'Featured in: Capital · Bloomberg BG · bTV · Manager · Forbes · Investor',
+    pressLabel: 'Featured in',
+    press: ['Capital', 'Bloomberg BG', 'bTV', 'Manager', 'Forbes', 'Investor'],
   },
   pillars: {
     label: 'What I build',

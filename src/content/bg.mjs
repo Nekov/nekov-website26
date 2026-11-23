@@ -35,7 +35,8 @@ export const bg = {
   recognition: {
     label: 'Признание',
     items: ['Endeavor Dare2Scale 2026', 'WEF Global Shaper', 'Darik Radio', '40 под 40', 'GITEX Europe 2025 (финалист)', 'Venture Cake (акселератор, Австрия, 2025)'],
-    press: 'Писали за мен: Capital · Bloomberg BG · bTV · Manager · Forbes · Investor',
+    pressLabel: 'Писали за мен',
+    press: ['Capital', 'Bloomberg BG', 'bTV', 'Manager', 'Forbes', 'Investor'],
   },
   pillars: {
     label: 'Какво изграждам',
