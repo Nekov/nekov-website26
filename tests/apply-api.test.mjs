@@ -149,3 +149,12 @@ test('session: "peek" never creates a session; "restart" starts a fresh one', as
   const fresh = await sessionHandler(req('POST', '/api/apply/session', { restart: true }, s.cookie, { ip: ip() }), env);
   assert.ok(cookieOf(fresh) && cookieOf(fresh) !== s.cookie); assert.deepEqual((await fresh.json()).answers, {});
 });
+
+test('result route extracts the token with and without a trailing slash', async () => {
+  const { GET } = await import('../api/apply/result/[token].js');
+  for (const path of ['/api/apply/result/abc.def', '/api/apply/result/abc.def/']) {
+    const r = await GET(new Request('https://x.test' + path, { headers: { 'x-forwarded-for': ip() } }));
+    assert.equal(r.status, 404); // unknown but well-formed token reaches the handler (not a routing error)
+    assert.equal((await r.json()).error, 'invalid_link');
+  }
+});

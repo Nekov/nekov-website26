@@ -21,12 +21,12 @@ const state = { answers: {}, saved: {}, key: 'welcome', maxPct: 0, timer: null, 
 // ── API ──────────────────────────────────────────────────────────────
 async function api(method, path, body) {
   try {
-    const r = await fetch('/api/apply' + path, { method, headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: body === undefined ? undefined : JSON.stringify(body) });
+    const r = await fetch('/api/apply' + path.replace(/\/?$/, '/'), { method, headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: body === undefined ? undefined : JSON.stringify(body) });
     let data = null; try { data = await r.json(); } catch {}
     return { ok: r.ok, status: r.status, data };
   } catch { return { ok: false, status: 0, data: null }; }
 }
-const track = (type, stepKey) => { if (CFG.mode === 'apply') fetch('/api/apply/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ type, stepKey }), keepalive: true }).catch(() => {}); };
+const track = (type, stepKey) => { if (CFG.mode === 'apply') fetch('/api/apply/event/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ type, stepKey }), keepalive: true }).catch(() => {}); };
 
 // ── Navigation (every screen is a history entry, so the browser's Back works) ──
 function go(key, { push = true } = {}) {
