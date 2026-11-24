@@ -76,6 +76,7 @@ function head({ c, page, prod, site }) {
   <link rel="preload" href="/fonts/inter-${c.lang === 'bg' ? 'cyrillic' : 'latin'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/site.css">
+  ${page.stylesheet ? `<link rel="stylesheet" href="${page.stylesheet}">` : ''}
 </head>`;
 }
 
@@ -134,11 +135,11 @@ export function layout({ c, page, body, prod, site, tracking = false }) {
 ${head({ c, page, prod, site })}
 <body>
   <a class="skip" href="#main">${esc(c.skip)}</a>
-  ${nav(c, page)}
+  ${page.bare ? '' : nav(c, page)}
   <main id="main">
 ${body}
   </main>
-  ${footer(c, tracking)}
+  ${page.bare ? '' : footer(c, tracking)}
   <script src="/js/site.js" defer></script>
   ${tracking ? consentBlock(c) : ''}
 </body>

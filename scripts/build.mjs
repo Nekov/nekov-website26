@@ -13,6 +13,9 @@ import { home } from '../src/pages/home.mjs';
 import { services } from '../src/pages/services.mjs';
 import { trainings } from '../src/pages/trainings.mjs';
 import { privacy, sent } from '../src/pages/simple.mjs';
+import { apply } from '../src/pages/apply.mjs';
+import { applyBg } from '../src/apply/content.bg.mjs';
+import { applyEn } from '../src/apply/content.en.mjs';
 import { buildImages, pic } from './images.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -60,6 +63,24 @@ for (const p of PAGES) {
   }
   if (!p.noindex && p.path !== '/privacy/') sitemap.push(paths);
 }
+
+// ── Apply questionnaire: /apply/ and /apply/result/ in both languages ──
+// Not in the sitemap and noindex unless APPLY_INDEXABLE=true (the owner turns it on after the soft launch).
+const applyIndexable = process.env.APPLY_INDEXABLE === 'true';
+for (const [c, content] of [[bg, applyBg], [en, applyEn]]) {
+  for (const mode of ['apply', 'result']) {
+    const own = `${c.base}${mode === 'apply' ? '/apply/' : '/apply/result/'}`;
+    write(join(own, 'index.html'), layout({
+      c, prod, site: SITE, tracking,
+      page: { meta: content.meta, canonical: own, noindex: mode === 'result' || !applyIndexable, bare: true, stylesheet: '/css/apply.css', switch: { bg: mode === 'apply' ? '/apply/' : '/apply/result/', en: mode === 'apply' ? '/en/apply/' : '/en/apply/result/' }, alternates: null },
+      body: apply(content, content, { mode }),
+    }));
+  }
+}
+mkdirSync(join(out, 'js/apply'), { recursive: true });
+for (const f of ['config.js', 'validate.js']) cpSync(join(root, 'lib/apply', f), join(out, 'js/apply', f));
+cpSync(join(root, 'src/apply/client.js'), join(out, 'js/apply/client.js'));
+cpSync(join(root, 'src/styles/apply.css'), join(out, 'css/apply.css'));
 
 // Open Graph image: the hero portrait at 1200x630.
 await sharp(join(root, 'images/nikolay-hero.jpeg')).resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(join(out, 'img/og.jpg'));

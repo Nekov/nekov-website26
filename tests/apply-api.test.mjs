@@ -105,7 +105,7 @@ test('result link: opens with a valid signature, 404 when tampered', async () =>
   const token = new URL(j.resultUrl, 'https://x.test').searchParams.get('t');
   const ok = await resultHandler(req('GET', '/x', undefined, undefined, { ip: ip() }), token, env);
   assert.equal(ok.status, 200); assert.equal((await ok.json()).result.readiness, 93);
-  assert.equal((await resultHandler(req('GET', '/x', undefined, undefined, { ip: ip() }), token.slice(0, -2) + 'aa', env)).status, 404);
+  assert.equal((await resultHandler(req('GET', '/x', undefined, undefined, { ip: ip() }), token.slice(0, -1) + (token.endsWith('0') ? '1' : '0'), env)).status, 404);
   assert.equal((await resultHandler(req('GET', '/x', undefined, undefined, { ip: ip() }), 'garbage', env)).status, 404);
 });
 
@@ -136,4 +136,16 @@ test('Supabase adapter talks to PostgREST with the service key and never sends i
     assert.equal(calls[1].init.method, 'PATCH');
     assert.equal(JSON.parse(calls[2].init.body).environment, 'staging');
   } finally { globalThis.fetch = real; }
+});
+
+test('session: "peek" never creates a session; "restart" starts a fresh one', async () => {
+  const env = mk();
+  const peek = await sessionHandler(req('POST', '/api/apply/session', { peek: true }, undefined, { ip: ip() }), env);
+  assert.equal((await peek.json()).resumed, false); assert.equal(peek.headers.get('set-cookie'), null);
+  assert.throws(() => readdirSync(join(env.LEADS_DIR, 'apply')), 'peek must not write anything');
+  const s = await start(env); await answer(env, s, 'stage', 'idea');
+  const p2 = await (await sessionHandler(req('POST', '/api/apply/session', { peek: true }, s.cookie, { ip: ip() }), env)).json();
+  assert.equal(p2.resumed, true); assert.equal(p2.answers.stage, 'idea');
+  const fresh = await sessionHandler(req('POST', '/api/apply/session', { restart: true }, s.cookie, { ip: ip() }), env);
+  assert.ok(cookieOf(fresh) && cookieOf(fresh) !== s.cookie); assert.deepEqual((await fresh.json()).answers, {});
 });

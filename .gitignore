@@ -6,7 +6,8 @@ node_modules/
 .env.*
 !.env.example
 dist-verify-*/
-data/
+data/*
+!data/clients.json
 .vercel/
 .vercel
 review/

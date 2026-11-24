@@ -61,6 +61,16 @@ console.log(`INFO  privacy text still a placeholder on: ${phPriv.join(', ') || '
   check('sitemap entries carry lastmod', /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(readFileSync('dist-verify-prod/sitemap.xml', 'utf8')));
 }
 
+// ── Apply questionnaire ──
+{
+  const pages = ['apply/', 'en/apply/', 'apply/result/', 'en/apply/result/'];
+  check('apply pages exist in both languages (questionnaire and result)', pages.every((p) => existsSync(`dist-verify-prod/${p}index.html`)));
+  check('apply pages are noindex even in production, and are not in the sitemap', pages.every((p) => /noindex/.test(readFileSync(`dist-verify-prod/${p}index.html`, 'utf8'))) && !/\/apply/.test(readFileSync('dist-verify-prod/sitemap.xml', 'utf8')) && !/\/apply/.test(readFileSync('dist-verify-prod/llms.txt', 'utf8')));
+  check('apply browser modules are shipped and share the server config and validation', ['client.js', 'config.js', 'validate.js'].every((f) => existsSync(`dist-verify-prod/js/apply/${f}`)) && readFileSync('dist-verify-prod/js/apply/config.js', 'utf8') === readFileSync('lib/apply/config.js', 'utf8'));
+  check('no secrets reach the browser: apply pages and modules contain no service key, webhook or signing secret', ['apply/', 'en/apply/'].every((p) => !/SERVICE_ROLE|WEBHOOK|APPLY_SECRET|TURNSTILE_SECRET/.test(readFileSync(`dist-verify-prod/${p}index.html`, 'utf8') + readFileSync('dist-verify-prod/js/apply/client.js', 'utf8'))));
+  check('apply client never contains tier names', !/GREEN|YELLOW|\bRED\b/.test(readFileSync('dist-verify-prod/js/apply/client.js', 'utf8')));
+}
+
 // ── Contact endpoint ──
 const { handleContact } = await import('../lib/contact.js');
 process.env.LEADS_DIR = 'dist-verify-leads';
