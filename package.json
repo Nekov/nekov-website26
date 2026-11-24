@@ -5,7 +5,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "verify": "node scripts/verify.mjs",
-    "dev": "node scripts/build.mjs && node scripts/dev.mjs 3456"
+    "dev": "node scripts/build.mjs && node scripts/dev.mjs 3456",
+    "test": "node --test \"tests/**/*.test.mjs\""
   },
   "devDependencies": {
     "sharp": "^0.35.5"
