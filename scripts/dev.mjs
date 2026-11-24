@@ -12,10 +12,10 @@ createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   try {
     if (url.pathname.startsWith('/api/')) {
-      // Run the same function files Vercel runs: api/<path>.js, or api/<dir>/[token].js for the last segment.
+      // Run the same function files Vercel runs: api/<path>.js, or api/<dir>.js.
       const parts = url.pathname.replace(/^\/api\//, '').replace(/\/$/, '').split('/');
       let file = join(process.cwd(), 'api', ...parts) + '.js';
-      try { await stat(file); } catch { file = join(process.cwd(), 'api', ...parts.slice(0, -1), '[token].js'); }
+      try { await stat(file); } catch { res.writeHead(404); return res.end('Not found'); }
       const mod = await import(pathToFileURL(file).href);
       const handler = mod[req.method];
       if (!handler) { res.writeHead(405); return res.end('Method Not Allowed'); }

@@ -150,11 +150,11 @@ test('session: "peek" never creates a session; "restart" starts a fresh one', as
   assert.ok(cookieOf(fresh) && cookieOf(fresh) !== s.cookie); assert.deepEqual((await fresh.json()).answers, {});
 });
 
-test('result route extracts the token with and without a trailing slash', async () => {
-  const { GET } = await import('../api/apply/result/[token].js');
-  for (const path of ['/api/apply/result/abc.def', '/api/apply/result/abc.def/']) {
+test('result route takes the token as ?t= (works with or without a trailing slash)', async () => {
+  const { GET } = await import('../api/apply/result.js');
+  for (const path of ['/api/apply/result?t=abc.def', '/api/apply/result/?t=abc.def', '/api/apply/result/']) {
     const r = await GET(new Request('https://x.test' + path, { headers: { 'x-forwarded-for': ip() } }));
-    assert.equal(r.status, 404); // unknown but well-formed token reaches the handler (not a routing error)
-    assert.equal((await r.json()).error, 'invalid_link');
+    assert.equal(r.status, 404);
+    assert.equal((await r.json()).error, 'invalid_link'); // reaches the handler; a bad or missing token is not a routing error
   }
 });

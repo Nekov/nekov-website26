@@ -21,7 +21,7 @@ const state = { answers: {}, saved: {}, key: 'welcome', maxPct: 0, timer: null, 
 // ── API ──────────────────────────────────────────────────────────────
 async function api(method, path, body) {
   try {
-    const r = await fetch('/api/apply' + path.replace(/\/?$/, '/'), { method, headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: body === undefined ? undefined : JSON.stringify(body) });
+    const r = await fetch('/api/apply' + (path.includes('?') ? path : path.replace(/\/?$/, '/')), { method, headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: body === undefined ? undefined : JSON.stringify(body) });
     let data = null; try { data = await r.json(); } catch {}
     return { ok: r.ok, status: r.status, data };
   } catch { return { ok: false, status: 0, data: null }; }
@@ -336,7 +336,7 @@ async function submit(e) {
 (async function boot() {
   if (CFG.mode === 'result') {
     const t = new URLSearchParams(location.search).get('t');
-    if (t) { const r = await api('GET', '/result/' + encodeURIComponent(t)); if (r.ok) { state.result = r.data.result; state.email = r.data.email; } }
+    if (t) { const r = await api('GET', '/result/?t=' + encodeURIComponent(t)); if (r.ok) { state.result = r.data.result; state.email = r.data.email; } }
     return render();
   }
   history.replaceState({ k: 'welcome' }, '', location.href);
